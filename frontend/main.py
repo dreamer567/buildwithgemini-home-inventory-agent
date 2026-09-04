@@ -160,37 +160,67 @@ async def chat(req: Request):
         )
         client = await create_client(A2A_BASE, config)
 
-        context_id = _contexts.get(user_id, "")
-        msg = Message(
-            message_id=str(uuid.uuid4()),
-            role=Role.ROLE_USER,
-            parts=[Part(text=message)],
-            context_id=context_id,
-        )
-
-        async for chunk in client.send_message(SendMessageRequest(message=msg)):
-            if chunk.HasField("artifact_update"):
-                if chunk.artifact_update.context_id:
-                    _contexts[user_id] = chunk.artifact_update.context_id
-                for p in chunk.artifact_update.artifact.parts:
-                    extracted = _extract_part_dict(p)
-                    if extracted:
-                        parts.append(extracted)
-            elif chunk.HasField("task"):
-                if chunk.task.context_id:
-                    _contexts[user_id] = chunk.task.context_id
-                for art in chunk.task.artifacts:
-                    for p in art.parts:
+        async def _send_to_agent(msg_text: str, ctx_id: str) -> tuple[list[dict], str]:
+            res_parts: list[dict] = []
+            res_ctx = ctx_id
+            m = Message(
+                message_id=str(uuid.uuid4()),
+                role=Role.ROLE_USER,
+                parts=[Part(text=msg_text)],
+                context_id=ctx_id,
+            )
+            async for chunk in client.send_message(SendMessageRequest(message=m)):
+                if chunk.HasField("artifact_update"):
+                    if chunk.artifact_update.context_id:
+                        res_ctx = chunk.artifact_update.context_id
+                    for p in chunk.artifact_update.artifact.parts:
                         extracted = _extract_part_dict(p)
                         if extracted:
-                            parts.append(extracted)
-            elif chunk.HasField("message"):
-                if chunk.message.context_id:
-                    _contexts[user_id] = chunk.message.context_id
-                for p in chunk.message.parts:
-                    extracted = _extract_part_dict(p)
-                    if extracted:
-                        parts.append(extracted)
+                            res_parts.append(extracted)
+                elif chunk.HasField("task"):
+                    if chunk.task.context_id:
+                        res_ctx = chunk.task.context_id
+                    for art in chunk.task.artifacts:
+                        for p in art.parts:
+                            extracted = _extract_part_dict(p)
+                            if extracted:
+                                res_parts.append(extracted)
+                elif chunk.HasField("message"):
+                    if chunk.message.context_id:
+                        res_ctx = chunk.message.context_id
+                    for p in chunk.message.parts:
+                        extracted = _extract_part_dict(p)
+                        if extracted:
+                            res_parts.append(extracted)
+            return res_parts, res_ctx
+
+        context_id = _contexts.get(user_id, "")
+        parts, new_context = await _send_to_agent(message, context_id)
+
+        # Check if the agent emitted the A2UI fallback error
+        is_fallback_error = any(
+            isinstance(p, dict)
+            and p.get("kind") == "text"
+            and "couldn't render that view" in str(p.get("text", "")).lower()
+            for p in parts
+        )
+
+        if is_fallback_error:
+            logger.warning(
+                "Agent returned render fallback error for user %s; resetting context and retrying...",
+                user_id,
+            )
+            _contexts.pop(user_id, None)
+            retry_parts, retry_ctx = await _send_to_agent(message, "")
+            if retry_parts and not any(
+                "couldn't render that view" in str(p.get("text", "")).lower()
+                for p in retry_parts
+            ):
+                parts = retry_parts
+                new_context = retry_ctx
+
+        if new_context:
+            _contexts[user_id] = new_context
 
     if not parts:
         parts = [{"kind": "text", "text": "(The agent didn't return a reply.)"}]

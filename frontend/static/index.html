@@ -931,6 +931,15 @@
 </div>
 
 <script>
+const sessionId = (function() {
+  let sid = sessionStorage.getItem("agent_session_id");
+  if (!sid) {
+    sid = "user_" + Math.random().toString(36).substring(2, 12);
+    sessionStorage.setItem("agent_session_id", sid);
+  }
+  return sid;
+})();
+
 /* --- Trilingual Dictionary --- */
 const I18N = {
   zh: {
@@ -1399,7 +1408,15 @@ function parseInteractiveChecklist(container, text) {
 
 function renderReply(b, parts) {
   b.innerHTML = "";
-  const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
+  const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => {
+    let t = p.text || "";
+    if (t.toLowerCase().includes("couldn't render that view")) {
+      if (currentLang === "ja") return "💡 空間のアイテムを整理中ですが、もう一度ご質問いただければ詳細をご案内いたします。";
+      if (currentLang === "en") return "Organizing the spatial items... please ask again for details.";
+      return "正在整理空间收纳，请重新尝试提问。";
+    }
+    return t;
+  });
   const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
 
   const textStr = texts.join("\n").trim();
@@ -1460,7 +1477,7 @@ async function sendUserMessage(msgText) {
     const res = await fetch("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text, image_base64: image })
+      body: JSON.stringify({ message: text, image_base64: image, user_id: sessionId })
     });
     const raw = await res.text();
     let data;
