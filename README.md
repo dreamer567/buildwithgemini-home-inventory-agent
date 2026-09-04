@@ -25,6 +25,7 @@
   - 🇯🇵 [日本語版ダイレクトリンク (?lang=ja)](https://home-inventory-frontend-885543773610.us-east1.run.app/?lang=ja)
   - 🇺🇸 [English Direct Link (?lang=en)](https://home-inventory-frontend-885543773610.us-east1.run.app/?lang=en)
 - 💻 **GitHub 开源仓库**: [https://github.com/dreamer567/buildwithgemini-home-inventory-agent](https://github.com/dreamer567/buildwithgemini-home-inventory-agent)
+- 📖 **个人 GCP 部署手顺书 (SOP for Gemini)**: [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
 - 🎁 **Build With Gemini 活动项目提交直达**: [Swag / Gallery 预填提交表单](https://docs.google.com/forms/d/e/1FAIpQLSfvbIUMrHLf2iUYVgQkr981unQwuLdigLB7yJp3VdtYH85Dzw/viewform?usp=pp_url&entry.896374137=https%3A%2F%2Fgithub.com%2Fdreamer567%2Fbuildwithgemini-home-inventory-agent&entry.339694639=home-inventory-agent&entry.82550013=A%20conversational%20agent%20that%20helps%20a%20family%20of%20three%20manage%20household%20assets%2C%20grocery%20freshness%2C%20and%20shopping%20replenishment%20with%20a%20catalog%20of%203LDK%20home%20items%20and%20pantry%20stock.)
 
 ---
