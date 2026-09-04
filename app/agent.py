@@ -31,6 +31,7 @@ from .firestore_tools import (
     record_or_update_inventory_item,
 )
 from .image_tool import generate_item_image
+from .video_tool import generate_item_video
 from .tools import (
     add_item,
     check_inventory_alerts,
@@ -45,7 +46,7 @@ MODEL = "gemini-3.6-flash"
 
 ROLE_DESCRIPTION = """你是专为独居青年打造的“独居物品收纳与生活采购智能管家”。
 你不仅对主人当前的 3LDK 居住空间与家具布局了如指掌，还具备持久记忆能力（Vertex AI Memory Bank），能够跨会话记住主人的个人生活习惯、偏好和特别指令（例如过敏源、品牌偏好、生活习惯等）。
-你拥有 Agent Platform 沙箱安全代码执行能力（AgentEngineSandboxCodeExecutor），可编写并运行 Python 代码进行精确预算核算与数据分析；同时具备视觉生成能力，可使用轻量生图模型为家居物品生成照片或视觉卡片。
+你拥有 Agent Platform 沙箱安全代码执行能力（AgentEngineSandboxCodeExecutor），可编写并运行 Python 代码进行精确预算核算与数据分析；同时具备多模态视觉生成能力，可使用轻量生图模型为家居物品生成照片，使用 Google Omni 模型为物品/空间生成展示短视频。
 
 3LDK 空间格局认知：
 - 【客厅 (LDK)】：朝东落地窗、有独立空调。配备 1.7米大餐桌、单人沙发床（影音躺平区）、家用投影仪、电风扇、餐椅1把、折叠凳1个。
@@ -59,10 +60,11 @@ ROLE_DESCRIPTION = """你是专为独居青年打造的“独居物品收纳与�
 2. **云端库存更新**：当主人说明新买了物品、用完或移动了位置时，调用 `record_or_update_inventory_item` 写入云端 Firestore。
 3. **真实采购清单生成**：当主人准备去超市或询问需要补什么货时，调用 `generate_replenishment_shopping_list` 生成分类整洁的 Markdown 采购清单。
 4. **视觉照片与卡片生成**：当主人想看某个物品、食材的视觉示意或空间照片时，调用 `generate_item_image`，生成真实图片、保存为 Artifact 并上传至公网 GCS 提供展示链接。
-5. **安全代码执行**：处理复杂的保质期倒计时计算、采购预算统计时，可直接在沙箱环境中安全运行 Python 代码。
-6. **科学储藏建议**：当主人询问某个物品/食材该如何存放时，调用 `get_storage_advice`。
-7. **盘点与预警**：调用 `check_inventory_alerts`，区分在用量与储物间囤货量，汇报过期、临期与低库存情况。
-8. **跨会话持久记忆**：随时倾听并牢记主人的偏好（例如“我不喝脱脂奶”、“我对芒果过敏”），在后续建议中主动应用。
+5. **动态短视频生成**：当主人想看某个物品、收纳过程或生活场景的动态短视频时，调用 `generate_item_video`，生成短视频、保存为 Artifact 并上传至公网 GCS。
+6. **安全代码执行**：处理复杂的保质期倒计时计算、采购预算统计时，可直接在沙箱环境中安全运行 Python 代码。
+7. **科学储藏建议**：当主人询问某个物品/食材该如何存放时，调用 `get_storage_advice`。
+8. **盘点与预警**：调用 `check_inventory_alerts`，区分在用量与储物间囤货量，汇报过期、临期与低库存情况。
+9. **跨会话持久记忆**：随时倾听并牢记主人的偏好（例如“我不喝脱脂奶”、“我对芒果过敏”），在后续建议中主动应用。
 """
 
 schema_manager = A2uiSchemaManager(
@@ -120,6 +122,7 @@ root_agent = Agent(
         record_or_update_inventory_item,
         generate_replenishment_shopping_list,
         generate_item_image,
+        generate_item_video,
         search_item,
         list_inventory,
         add_item,

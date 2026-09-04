@@ -16,6 +16,7 @@ def test_agent_tools_and_callbacks_configured():
     assert "record_or_update_inventory_item" in tool_names
     assert "generate_replenishment_shopping_list" in tool_names
     assert "generate_item_image" in tool_names
+    assert "generate_item_video" in tool_names
     assert root_agent.code_executor is not None
     assert root_agent.after_agent_callback is generate_memories_callback
 
@@ -42,4 +43,14 @@ async def test_image_tool_signature_and_gcs():
     assert BUCKET_NAME == "home-inventory-assets-0e1a68c8e387"
     assert PROJECT_ID == "qwiklabs-gcp-04-0e1a68c8e387"
     assert callable(generate_item_image)
+
+
+@pytest.mark.asyncio
+async def test_video_tool_signature_and_gcs():
+    from app.video_tool import BUCKET_NAME, PROJECT_ID, OMNI_MODEL, generate_item_video
+    assert BUCKET_NAME == "home-inventory-assets-0e1a68c8e387"
+    assert PROJECT_ID == "qwiklabs-gcp-04-0e1a68c8e387"
+    assert OMNI_MODEL == "gemini-omni-flash-preview"
+    assert callable(generate_item_video)
+
 

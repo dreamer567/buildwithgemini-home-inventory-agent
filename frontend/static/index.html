@@ -1,75 +1,503 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>3LDK 独居物品收纳与生活采购智能管家</title>
-<!-- Optional: used only to draw A2UI Icon components. If it can't load (offline/
-     corp network), icons fall back to showing their name as text. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+<!-- Google Fonts: Inter & Material Symbols Outlined -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
 <style>
-  :root { --accent:#1a73e8; --bg:#f6f8fa; --border:#dfe3e8; }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); display:flex; flex-direction:column; height:100vh; }
-  header { background:var(--accent); color:#fff; padding:.9rem 1.2rem; font-weight:700; font-size:1.1rem; box-shadow:0 2px 4px rgba(0,0,0,.08); }
-  #log { flex:1; overflow-y:auto; padding:1.2rem; max-width:780px; width:100%; margin:0 auto; }
-  .msg { margin:.6rem 0; }
-  .msg.user { text-align:right; }
-  .bubble { display:inline-block; padding:.6rem .9rem; border-radius:12px; background:#fff; border:1px solid var(--border); text-align:left; max-width:90%; white-space:pre-wrap; }
-  .msg.user .bubble { background:var(--accent); color:#fff; border:none; }
-  /* When the reply is an A2UI card, drop the bubble chrome so the card stands alone. */
-  .bubble.rich { background:transparent; border:none; padding:0; max-width:100%; white-space:normal; }
-  form { display:flex; gap:.5rem; padding:1rem; border-top:1px solid var(--border); background:#fff; }
-  input { flex:1; padding:.7rem; border:1px solid var(--border); border-radius:8px; font-size:1rem; }
-  button { padding:.7rem 1.1rem; border:none; border-radius:8px; background:var(--accent); color:#fff; font-weight:600; cursor:pointer; }
+  :root {
+    --accent: #2d6a4f;
+    --accent-dark: #1b4332;
+    --accent-light: #52b788;
+    --accent-subtle: #d8f3dc;
+    --accent-tint: #eaf8ee;
+    --bg: #f5f7f6;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text-main: #1f2937;
+    --text-muted: #64748b;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 24px rgba(27, 67, 50, 0.08);
+  }
 
-  /* --- A2UI component styles (Card, Column, Row, Text, Divider, List, Image, Icon) --- */
-  .a2card { border:1px solid var(--border); border-radius:12px; padding:1rem; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.06); max-width:100%; }
-  .a2card + .a2card, .a2col > .a2card { margin-top:.6rem; }
-  .a2col { display:flex; flex-direction:column; gap:.4rem; }
-  .a2row { display:flex; flex-direction:row; gap:.6rem; align-items:center; flex-wrap:wrap; }
-  .a2row.between { justify-content:space-between; }
-  .a2text { margin:0; line-height:1.4; }
-  .a2text.a2-h1 { font-size:1.5rem; font-weight:700; }
-  .a2text.a2-h2 { font-size:1.25rem; font-weight:700; }
-  .a2text.a2-h3 { font-size:1.1rem; font-weight:600; }
-  .a2text.a2-h4 { font-size:1rem; font-weight:600; }
-  .a2text.a2-caption { font-size:.85rem; color:#666; }
-  .a2divider { border:none; border-top:1px solid var(--border); margin:.4rem 0; width:100%; }
-  .a2img { max-width:100%; border-radius:8px; display:block; }
-  .material-symbols-outlined { font-family:'Material Symbols Outlined'; font-size:1.25rem; line-height:1; vertical-align:middle; color:var(--accent); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* --- Header --- */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+  }
+  .brand-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .brand-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(45, 106, 79, 0.25);
+  }
+  .brand-icon .material-symbols-outlined {
+    font-size: 24px;
+    color: #fff;
+  }
+  .brand-title {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .badge-pill {
+    background: var(--accent-subtle);
+    color: var(--accent-dark);
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+  .brand-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--accent-dark);
+    background: var(--accent-tint);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-weight: 500;
+    border: 1px solid var(--accent-subtle);
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  }
+
+  /* --- Chat Dialogue Area --- */
+  #log {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem 1rem;
+    max-width: 860px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    scroll-behavior: smooth;
+  }
+
+  .dialogue-turn {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: fadeInSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes fadeInSlide {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dialogue-turn.user {
+    flex-direction: row-reverse;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .dialogue-turn.agent .avatar {
+    background: #e8f5e9;
+    color: var(--accent-dark);
+    border: 1px solid var(--accent-subtle);
+  }
+  .dialogue-turn.user .avatar {
+    background: #374151;
+    color: #fff;
+  }
+
+  .dialogue-content {
+    max-width: 78%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .dialogue-turn.user .dialogue-content {
+    align-items: flex-end;
+  }
+
+  .sender-info {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 4px;
+  }
+
+  .bubble {
+    padding: 0.85rem 1.1rem;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    text-align: left;
+    box-shadow: var(--shadow-sm);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    word-break: break-word;
+    white-space: pre-wrap;
+    transition: all 0.2s ease;
+  }
+  .dialogue-turn.agent .bubble {
+    border-top-left-radius: 4px;
+    background: var(--surface);
+    color: var(--text-main);
+  }
+  .dialogue-turn.user .bubble {
+    border-top-right-radius: 4px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(45, 106, 79, 0.2);
+  }
+  .bubble.rich {
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    white-space: normal;
+    max-width: 100%;
+  }
+
+  /* --- A2UI Component Refinements --- */
+  .a2card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.15rem;
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+    max-width: 100%;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .a2card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+  .a2card + .a2card, .a2col > .a2card { margin-top: 0.75rem; }
+  .a2col { display: flex; flex-direction: column; gap: 0.5rem; }
+  .a2row { display: flex; flex-direction: row; gap: 0.65rem; align-items: center; flex-wrap: wrap; }
+  .a2row.between { justify-content: space-between; }
+  .a2text { margin: 0; line-height: 1.5; color: var(--text-main); }
+  .a2text.a2-h1 { font-size: 1.35rem; font-weight: 700; color: var(--accent-dark); }
+  .a2text.a2-h2 { font-size: 1.15rem; font-weight: 700; color: var(--accent); }
+  .a2text.a2-h3 { font-size: 1rem; font-weight: 600; color: var(--text-main); }
+  .a2text.a2-h4 { font-size: 0.92rem; font-weight: 600; }
+  .a2text.a2-caption { font-size: 0.8rem; color: var(--text-muted); }
+  .a2divider { border: none; border-top: 1px solid var(--border); margin: 0.5rem 0; width: 100%; }
+  .a2img { max-width: 100%; border-radius: 10px; display: block; margin-top: 0.4rem; box-shadow: var(--shadow-sm); }
+  .media-video { width: 100%; max-height: 360px; border-radius: 10px; margin-top: 0.5rem; background: #000; box-shadow: var(--shadow-md); outline: none; }
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-size: 1.25rem;
+    line-height: 1;
+    vertical-align: middle;
+    color: var(--accent);
+  }
+
+  /* --- Quick Suggestion Prompts --- */
+  .quick-prompts-wrapper {
+    max-width: 860px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0.4rem 1rem 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .quick-prompts-wrapper::-webkit-scrollbar { display: none; }
+  .prompt-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--accent-dark);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.45rem 0.85rem;
+    border-radius: 20px;
+    white-space: nowrap;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  .prompt-pill:hover {
+    background: var(--accent-tint);
+    border-color: var(--accent-light);
+    color: var(--accent-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(45, 106, 79, 0.15);
+  }
+  .prompt-pill:active {
+    transform: translateY(0);
+  }
+
+  /* --- Footer & Input Form --- */
+  .chat-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1rem 1rem;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+  }
+  .input-form-container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  form {
+    display: flex;
+    gap: 0.6rem;
+    position: relative;
+    align-items: center;
+  }
+  input {
+    flex: 1;
+    padding: 0.85rem 1.15rem;
+    border: 1.5px solid var(--border);
+    border-radius: 24px;
+    font-size: 0.95rem;
+    outline: none;
+    background: #fdfdfd;
+    color: var(--text-main);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus {
+    border-color: var(--accent);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.12);
+  }
+  input::placeholder {
+    color: #94a3b8;
+  }
+  .send-btn {
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(45, 106, 79, 0.3);
+  }
+  .send-btn:hover {
+    transform: scale(1.05);
+    background: var(--accent-dark);
+    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.4);
+  }
+  .send-btn:active {
+    transform: scale(0.96);
+  }
+  .send-btn .material-symbols-outlined {
+    color: #fff;
+    font-size: 20px;
+  }
+
+  /* --- Typing Wave Indicator --- */
+  .typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 6px;
+  }
+  .typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-light);
+    border-radius: 50%;
+    animation: typing 1.4s infinite ease-in-out both;
+  }
+  .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+  .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+  @keyframes typing {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+  }
 </style>
 </head>
 <body>
-<header>🏠 3LDK 独居物品收纳与生活采购智能管家</header>
-<div id="log"></div>
-<form id="form">
-  <input id="input" placeholder="问问剪刀、西红柿在哪里，或生成采购补货计划与图片…" autocomplete="off" autofocus>
-  <button>Send</button>
-</form>
+<header>
+  <div class="brand-group">
+    <div class="brand-icon">
+      <span class="material-symbols-outlined">inventory_2</span>
+    </div>
+    <div>
+      <div class="brand-title">
+        3LDK 独居物品收纳与生活采购智能管家
+        <span class="badge-pill">Gemini 3.6 Flash</span>
+      </div>
+      <div class="brand-subtitle">3LDK 空间收纳 · 食材鲜度追踪 · 智能采购补货 · 视觉照片与短视频</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div class="status-indicator">
+      <span class="status-dot"></span>
+      <span>Agent Runtime 联机</span>
+    </div>
+  </div>
+</header>
+
+<div id="log">
+  <!-- Initial greeting -->
+  <div class="dialogue-turn agent">
+    <div class="avatar">
+      <span class="material-symbols-outlined">home_pin</span>
+    </div>
+    <div class="dialogue-content">
+      <div class="sender-info">
+        <span>智能管家</span>
+        <span>· 刚刚</span>
+      </div>
+      <div class="bubble">
+你好！我是你的 3LDK 独居收纳与采购智能管家。我对你的三居室空间（客厅大餐桌、东卧独立书桌、中卧押入壁橱、西卧闲置储物间）与生活收纳习惯了如指掌。
+
+你可以直接询问我物品位置、让我检查过期与库存预警、一键生成采购清单，或是生成物品的真实视觉照片与演示短视频！
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chat-footer">
+  <!-- 3 Clickable Example Prompts -->
+  <div class="quick-prompts-wrapper" id="quick-prompts">
+    <button type="button" class="prompt-pill" data-prompt="剪刀放在哪里？">
+      <span class="material-symbols-outlined" style="font-size:16px;">content_cut</span>
+      剪刀放在哪里？
+    </button>
+    <button type="button" class="prompt-pill" data-prompt="帮我检查冰箱和储物间，生成一份紧急程度明确的独居采购清单">
+      <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart_checkout</span>
+      检查库存并生成独居采购清单
+    </button>
+    <button type="button" class="prompt-pill" data-prompt="为厨房的万能味醂生成一张精美的物品视觉照片">
+      <span class="material-symbols-outlined" style="font-size:16px;">photo_camera</span>
+      生成万能味醂视觉照片
+    </button>
+  </div>
+
+  <div class="input-form-container">
+    <form id="form">
+      <input id="input" placeholder="输入问题或需求，例如：“玄关鞋柜放了什么？”、“生成采购清单”…" autocomplete="off" autofocus>
+      <button class="send-btn" type="submit" aria-label="发送消息">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </form>
+  </div>
+</div>
 
 <script>
 const log = document.getElementById("log");
 const form = document.getElementById("form");
 const input = document.getElementById("input");
+const quickPrompts = document.getElementById("quick-prompts");
 
-function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+
+function formatTime() {
+  const now = new Date();
+  return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+}
 
 function bubble(who) {
-  const m = el("div", "msg " + who);
+  const turn = el("div", "dialogue-turn " + who);
+  const avatar = el("div", "avatar");
+  const avatarIcon = el("span", "material-symbols-outlined");
+  avatarIcon.textContent = (who === "user" ? "person" : "home_pin");
+  avatar.appendChild(avatarIcon);
+
+  const content = el("div", "dialogue-content");
+  const sender = el("div", "sender-info");
+  sender.innerHTML = `<span>${who === "user" ? "独居主人" : "智能管家"}</span><span>· ${formatTime()}</span>`;
+
   const b = el("div", "bubble");
-  m.appendChild(b); log.appendChild(m); log.scrollTop = log.scrollHeight;
+  content.appendChild(sender);
+  content.appendChild(b);
+
+  turn.appendChild(avatar);
+  turn.appendChild(content);
+
+  log.appendChild(turn);
+  log.scrollTop = log.scrollHeight;
   return b;
 }
 
 /* ----------------------------------------------------------------------------
  * A2UI mini-renderer (v0.8 Basic Catalog subset).
  * Renders Card / Column / Row / Text / Divider / List / Image / Icon.
- * Anything else falls back to plain text (see renderReply). All text goes in via
- * textContent and image URLs are validated, so agent output can't inject HTML.
  * -------------------------------------------------------------------------- */
-
-// A "bound value" is usually {literalString: "..."}; we only support literals.
 function boundStr(v) {
   if (v == null) return "";
   if (typeof v === "string") return v;
@@ -77,7 +505,6 @@ function boundStr(v) {
   return "";
 }
 
-// child ids of a component's props: single `child` and/or `children.explicitList`.
 function childIds(props) {
   const ids = [];
   if (props && typeof props.child === "string") ids.push(props.child);
@@ -86,11 +513,12 @@ function childIds(props) {
   return ids;
 }
 
-// A2UI icon names are camelCase (locationOn); Material Symbols wants snake_case.
-function iconName(n) { return String(n || "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/\s+/g, "_").toLowerCase(); }
+function iconName(n) {
+  return String(n || "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/\s+/g, "_").toLowerCase();
+}
 
 function buildNode(id, comps, seen) {
-  if (!id || seen.has(id)) return null;   // missing / cycle guard
+  if (!id || seen.has(id)) return null;
   seen.add(id);
   const spec = comps[id];
   if (!spec || typeof spec !== "object") return null;
@@ -123,19 +551,17 @@ function buildNode(id, comps, seen) {
       return el("hr", "a2divider");
     case "Image": {
       const src = boundStr(props.url || props.src);
-      if (!/^https?:\/\//i.test(src)) return null;   // only allow safe URLs
+      if (!/^https?:\/\//i.test(src)) return null;
       const img = el("img", "a2img"); img.src = src; img.alt = boundStr(props.alt) || ""; return img;
     }
     case "Icon": {
       const s = el("span", "material-symbols-outlined"); s.textContent = iconName(boundStr(props.name) || props.name); return s;
     }
     default:
-      return null;   // unknown component -> skipped (text fallback covers content)
+      return null;
   }
 }
 
-// Render one or more A2UI messages (beginRendering + surfaceUpdate) into `container`.
-// Returns true if anything was drawn.
 function renderSurface(messages, container) {
   const comps = {};
   const roots = [];
@@ -145,7 +571,7 @@ function renderSurface(messages, container) {
     if (su && Array.isArray(su.components)) for (const c of su.components) if (c && c.id && c.component) comps[c.id] = c.component;
   }
   let rootIds = roots.filter(r => comps[r]);
-  if (rootIds.length === 0) {   // no valid root given -> infer un-referenced components
+  if (rootIds.length === 0) {
     const referenced = new Set();
     for (const id in comps) { const spec = comps[id]; childIds(spec[Object.keys(spec)[0]] || {}).forEach(c => referenced.add(c)); }
     rootIds = Object.keys(comps).filter(id => !referenced.has(id));
@@ -155,7 +581,6 @@ function renderSurface(messages, container) {
   return drew;
 }
 
-// Fallback: pull every Text value out of the messages as plain text.
 function flattenText(messages) {
   const out = [];
   for (const m of messages) {
@@ -166,41 +591,80 @@ function flattenText(messages) {
 }
 
 function renderReply(b, parts) {
-  b.textContent = "";   // clear the "…" placeholder
+  b.innerHTML = "";
   const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
   const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
 
   const textStr = texts.join("\n").trim();
-  if (textStr) b.appendChild(el("div", null, textStr));
+  if (textStr) {
+    const textDiv = el("div", null);
+    // Detect video URL or video mention in response
+    const videoMatch = textStr.match(/(https:\/\/storage\.googleapis\.com\/[^\s"')]+\.mp4)/i);
+    if (videoMatch) {
+      const cleanText = textStr.replace(videoMatch[0], "").trim();
+      if (cleanText) {
+        textDiv.textContent = cleanText;
+      }
+      const videoEl = document.createElement("video");
+      videoEl.className = "media-video";
+      videoEl.src = videoMatch[0];
+      videoEl.controls = true;
+      videoEl.autoplay = false;
+      textDiv.appendChild(videoEl);
+    } else {
+      textDiv.textContent = textStr;
+    }
+    b.appendChild(textDiv);
+  }
 
   if (a2ui.length) {
     b.classList.add("rich");
-    if (!renderSurface(a2ui, b)) b.appendChild(el("div", null, flattenText(a2ui) || "(no card content)"));
+    if (!renderSurface(a2ui, b)) b.appendChild(el("div", null, flattenText(a2ui) || "(无卡片内容)"));
   }
-  if (!b.childNodes.length) b.textContent = "(no response)";
+  if (!b.childNodes.length) b.textContent = "(暂无回复)";
   log.scrollTop = log.scrollHeight;
 }
 
-// The proxy returns { parts: [{kind:"text",text} | {kind:"a2ui",data}] }.
-form.addEventListener("submit", async (ev) => {
-  ev.preventDefault();
-  const text = input.value.trim();
+async function sendUserMessage(msgText) {
+  const text = msgText.trim();
   if (!text) return;
   bubble("user").textContent = text;
   input.value = "";
-  const b = bubble("agent"); b.textContent = "…";
+  
+  const b = bubble("agent");
+  b.innerHTML = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
+  
   try {
-    const res = await fetch("/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: text }) });
-    // Read as text first, then parse. If the proxy ever returns a non-JSON error
-    // page (e.g. a plain "Internal Server Error"), show that body instead of a
-    // cryptic "Unexpected token" JSON error.
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
+    });
     const raw = await res.text();
     let data;
-    try { data = JSON.parse(raw); }
-    catch { throw new Error(`Server returned non-JSON (HTTP ${res.status}). ${raw.slice(0, 300)}`); }
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      throw new Error(`服务返回非 JSON 内容 (HTTP ${res.status}): ${raw.slice(0, 300)}`);
+    }
     renderReply(b, data.parts || []);
   } catch (e) {
-    b.textContent = "Error: " + e.message;
+    b.textContent = "请求出错: " + e.message;
+  }
+}
+
+form.addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  sendUserMessage(input.value);
+});
+
+// Click handlers for example prompt pills
+quickPrompts.addEventListener("click", (ev) => {
+  const pill = ev.target.closest(".prompt-pill");
+  if (!pill) return;
+  const prompt = pill.dataset.prompt;
+  if (prompt) {
+    sendUserMessage(prompt);
   }
 });
 </script>
