@@ -12,7 +12,7 @@
 | 🇯🇵 日本語版 (3D立体間取り図操作・ボタン連動・和風Lo-Fi音源) | 🇨🇳 中文版 (全流程定位・待办核销・极简Lo-Fi) |
 | :---: | :---: |
 | ![Japanese Demo](./assets/demo_ja.gif) | ![Chinese Demo](./assets/demo.gif) |
-| 🎥 [高清原片 assets/agent_demo_ja.webm](./assets/agent_demo_ja.webm) | 🎥 [高清原片 assets/agent_demo.webm](./assets/agent_demo.webm) |
+| 📱 [手机/万能播放 MP4 (iOS/Android)](https://github.com/dreamer567/buildwithgemini-home-inventory-agent/raw/main/assets/agent_demo_ja.mp4) <br> 🎥 [高清 WebM 原片](./assets/agent_demo_ja.webm) | 📱 [手机/万能播放 MP4 (iOS/Android)](https://github.com/dreamer567/buildwithgemini-home-inventory-agent/raw/main/assets/agent_demo.mp4) <br> 🎥 [高清 WebM 原片](./assets/agent_demo.webm) |
 
 > 🎵 **AI 原创配乐**：全部演示视频均由 Google **Lyria**（`lyria-002`）模型根据空间氛围实时生成专属 Lo-Fi 律动伴奏，并以 1.5x 倍速精细合成。
 
