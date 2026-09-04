@@ -229,7 +229,7 @@
   .iso-stage {
     perspective: 800px;
     width: 100%;
-    height: 125px;
+    height: 138px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -239,7 +239,7 @@
     transform-style: preserve-3d;
     display: grid;
     grid-template-columns: 82px 82px;
-    grid-template-rows: 52px 52px 42px;
+    grid-template-rows: 44px 44px 44px;
     gap: 7px;
     position: relative;
     transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -289,9 +289,14 @@
     color: #ffffff;
   }
   .room-ldk {
-    grid-column: 1 / 3;
+    grid-column: 1 / 2;
     grid-row: 1 / 2;
     background: #eaf8ee;
+  }
+  .room-wash {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    background: #eef6fa;
   }
   .room-bed1 {
     grid-column: 1 / 2;
@@ -368,7 +373,35 @@
     font-size: 0.72rem;
     color: var(--accent-dark);
     font-weight: 500;
+    margin-top: 3px;
+  }
+  .room-furniture-line, .room-hierarchy-line {
+    font-size: 0.72rem;
+    color: var(--text-main);
+    line-height: 1.35;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
     margin-top: 2px;
+  }
+  .room-furniture-line strong, .room-hierarchy-line strong {
+    color: var(--accent-dark);
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .room-rule-tag {
+    font-size: 0.69rem;
+    background: #eaf8ee;
+    color: #1b4332;
+    border: 1px solid #c8e6c9;
+    border-radius: 6px;
+    padding: 3px 6px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1.3;
+    font-weight: 500;
   }
 
   /* --- Chat Area --- */
@@ -843,9 +876,13 @@
       </div>
       <div class="iso-stage">
         <div class="iso-grid">
-          <div class="iso-room room-ldk" id="iso-room-ldk" data-idx="1" title="LDK 客餐厨 / Living Kitchen">
+          <div class="iso-room room-ldk" id="iso-room-ldk" data-idx="1" title="LDK 客餐厨 / Living & Kitchen">
             <span class="iso-icon">🛋️</span>
             <span class="iso-label" id="iso-lbl-ldk">LDK</span>
+          </div>
+          <div class="iso-room room-wash" id="iso-room-wash" data-idx="5" title="洗面所·浴室·家政阳台 / Wash & Balcony">
+            <span class="iso-icon">🚿</span>
+            <span class="iso-label" id="iso-lbl-wash">Wash</span>
           </div>
           <div class="iso-room room-bed1" id="iso-room-bed1" data-idx="2" title="東寝室·書斎 / East Study">
             <span class="iso-icon">🖥️</span>
@@ -946,23 +983,82 @@ const I18N = {
     pageTitle: "3LDK 三口之家物品收纳与生活采购智能管家",
     brandTitle: "3LDK 三口之家物品收纳与生活采购智能管家",
     badgePill: "Gemini 3.6 Flash",
-    brandSubtitle: "空间鸟瞰图 · 视觉小票识别 · 交互待办采购 · 食材保鲜预警",
+    brandSubtitle: "空间家具鸟瞰图 · 在用与战略备货联动 · 视觉小票识别 · 采购清单",
     toggleMap: "3LDK 户型图",
     statusOnline: "Agent Runtime 在线",
-    sidebarTitle: "3LDK 空间收纳鸟瞰图",
-    sidebarSubtitle: "点击任意空间，立即查询该区域的所有收纳物品与库存",
+    sidebarTitle: "3LDK 空间家具与收纳总览",
+    sidebarSubtitle: "点击任意房间或3D立体区，立即查询该区域的家具布局、收纳层级与实时物品",
+    furnitureLabel: "家具配置",
+    hierarchyLabel: "收纳层级",
     rooms: [
-      { name: "🚪 玄关与走廊 (Entrance)", badge: "入户区", desc: "鞋柜抽屉、挂钩置物架、雨伞架", items: "📍 拆快递专用剪刀、鞋油、备用钥匙", query: "查看【玄关】收纳的所有物品与位置" },
-      { name: "🛋️ LDK 客餐厨 (Living & Kitchen)", badge: "核心生活区", desc: "双门智能冰箱、调料收纳柜、实木大餐桌", items: "📍 万能味醂、鲜牛奶、即食酱料、日用杂物", query: "查看【LDK 客餐厨】收纳的所有物品与保鲜状态" },
-      { name: "🖥️ 东卧·独立书房 (East Study)", badge: "工作学习区", desc: "1米独立书桌、桌下收纳小抽屉、极简笔筒", items: "📍 办公专用剪刀、数码配件、手账文具", query: "查看【东卧·独立书房】收纳的所有办公文具与物品" },
-      { name: "🗄️ 中卧·起居主卧 (Master Bedroom)", badge: "就寝收纳区", desc: "传统巨大押入壁橱 (Oshiire)、床头收纳柜", items: "📍 换季厚被褥、旅行箱、无绳吸尘器", query: "查看【中卧·起居主卧】押入壁橱中收纳的所有物品" },
-      { name: "📦 西卧·儿童房与储物区 (West Room)", badge: "全家备货区", desc: "四层金属货架、半透明收纳大箱、全家物资", items: "📍 整箱原木抽纸、大瓶备用洗衣液、大米", query: "查看【西卧·储物备货区】囤积的所有大宗物资与日用品" }
+      {
+        name: "🚪 玄关与走廊 (Entrance)",
+        badge: "入户区",
+        desc: "入户缓冲动线，快递拆箱与钥匙雨具收纳",
+        furniture: "悬空三段式鞋柜、胡桃木磁吸挂钩排、弱电暗盒",
+        hierarchy: "顶层换季鞋盒 | 中段钥匙认印盘 | 底层常穿鞋 | 挂钩拆箱剪刀",
+        items: "📍 拆快递专用剪刀、家门备用钥匙、认印印章",
+        rule: "💡 进门钥匙随手归盘；拆箱剪刀磁吸挂钩高处防幼儿拿取",
+        query: "查看【玄关】的家具安排与收纳物品位置"
+      },
+      {
+        name: "🛋️ LDK 客餐厨 (Living & Kitchen)",
+        badge: "核心生活区",
+        desc: "一家三口就餐娱乐、烹饪料理与食材保鲜",
+        furniture: "1.7米大餐桌、450L智能冰箱、灶台拉篮、沙发边几、大白墙投影",
+        hierarchy: "餐桌常备抽纸盒/遥控小抽屉 | 冰箱冷藏/冷冻/果蔬 | 灶台拉篮调料",
+        items: "📍 万能味醂、鲜牛奶、即食调料、餐桌抽纸、家用投影仪",
+        rule: "💡 高频消耗品；餐桌在用抽纸用完时，优先从西卧大宗仓调拨，无需重复外购",
+        query: "查看【LDK客餐厨】的家具布局、冰箱食材与餐桌收纳"
+      },
+      {
+        name: "🖥️ 东卧·独立书房 (East Study)",
+        badge: "工作学习区",
+        desc: "夫妻远程专注办公、数码资产管理与重要家庭证件",
+        furniture: "1米北欧实木书桌、桌下三层滑轨抽屉、墙面胡桃木隔板置物架",
+        hierarchy: "桌面笔筒文具 | 抽屉一层防飞溅指甲刀 | 二层电池线材 | 三层重要证件",
+        items: "📍 办公剪刀、防飞溅指甲刀、快充移动电源、房产与保险重要证件",
+        rule: "💡 重要证件深抽归档；书房常备独立文具剪刀，避免与玄关拆箱剪混用",
+        query: "查看【东卧·独立书房】的书桌家具与文具证件收纳"
+      },
+      {
+        name: "🗄️ 中卧·起居主卧 (Master Bedroom)",
+        badge: "就寝收纳区",
+        desc: "夫妻主卧就寝、家庭换季大件与家庭安全医药集中收纳",
+        furniture: "1.8米实木双人床、经典和式大容量押入壁橱 (Oshiire)、悬空床头几",
+        hierarchy: "天袋(空行李箱/五金工具盒) | 中层(挂衣大衣/避光家庭医药箱) | 下层(换季塑料抽屉)",
+        items: "📍 28寸行李箱、五金螺丝工具盒、布洛芬缓释胶囊、创口贴、床头遥控",
+        rule: "💡 家庭药箱中层避光防儿童；大件空箱上天袋释放地面空间",
+        query: "详细查看【中卧·起居主卧】和式押入壁橱天袋、中层与下层塑料柜的收纳安排"
+      },
+      {
+        name: "📦 西卧·儿童房与储物区 (West Room)",
+        badge: "战略备货仓",
+        desc: "孩子独立成长空间、全家日用品大宗战略备货仓与换季家电",
+        furniture: "儿童成长床与玩具矮柜、封闭式四门大衣柜 (家庭战略物资总仓)",
+        hierarchy: "衣柜最上层(闲置变频电风扇/加厚羽绒被) | 中层(童装) | 最下层(大宗日用储备仓)",
+        items: "📍 整箱原木抽纸(12包)、洗衣液补充装(2kg*2)、大桶洗洁精、5kg五常大米",
+        rule: "💡 全家物资战略总仓！各房间日用品见底先自此调拨，杜绝重复外购",
+        query: "查看【西卧·储物备货区】囤积的所有大宗日用储备与换季家电"
+      },
+      {
+        name: "🚿 洗面所与家政阳台 (Wash & Balcony)",
+        badge: "卫浴家政区",
+        desc: "晨昏洗漱护肤、全家衣物洗护烘干与清洁耗材收纳",
+        furniture: "智能三门镜柜、洗手台一体柜、阳台全铝洗衣机组合柜",
+        hierarchy: "镜柜(替换刷头/洗漱品) | 台下(消毒清洁) | 洗衣机台面(在用除菌洗衣液)",
+        items: "📍 电动牙刷替换刷头(4支)、蓝月亮洗衣液(在用2包)",
+        rule: "💡 在用常备2包，用尽时触发西卧备货仓调拨；强效清洁剂高位存放防儿童",
+        query: "查看【洗面所与阳台】的洗漱与洗衣清洁物资收纳"
+      }
     ],
-    greeting: "你好！我是你的 3LDK 三口之家收纳与生活采购智能管家。\n\n✨ 支持功能：\n1. 3LDK 空间鸟瞰图交互\n2. 拍照/小票视觉智能录入\n3. 交互式采购待办清单核销\n4. 食材保鲜彩色进度条\n5. 中英日三语无缝支持！",
+    greeting: "你好！我是专为一家三口打造的 3LDK 物品收纳与生活采购智能管家。\n\n✨ 全新增强能力：\n1. 🏠 3LDK 6大空间家具布局与收纳层级详解（押入壁橱天袋/中层/下层、三层书桌抽屉等）\n2. 📦 在用物资与西卧战略备货仓联动比对（在用不足优先内部调拨，杜绝重复外购）\n3. 🧾 拍照/小票视觉智能录入与保质期监控\n4. 🛒 交互式采购待办清单核销\n5. 🌐 中英日三语无缝支持！",
     prompts: [
+      { icon: "chair", label: "全屋家具安排与收纳总览", text: "查看全屋家具安排与3LDK空间收纳总览" },
+      { icon: "inventory_2", label: "对比在用与西卧备货仓", text: "对比各房间在用日用品与西卧储物备货仓的库存" },
       { icon: "content_cut", label: "剪刀放在哪里？", text: "剪刀放在哪里？" },
-      { icon: "shopping_cart_checkout", label: "检查库存并生成家庭采购清单", text: "帮我检查冰箱和储物间，生成一份紧急程度明确的家庭生活采购清单" },
-      { icon: "photo_camera", label: "生成万能味醂视觉照片", text: "为厨房的万能味醂生成一张精美的物品视觉照片" }
+      { icon: "shopping_cart_checkout", label: "生成家庭采购清单", text: "帮我检查冰箱和储物间，生成一份紧急程度明确的家庭生活采购清单" },
+      { icon: "shelves", label: "中卧和式押入壁橱详解", text: "详细介绍中卧押入壁橱天袋、中层与下层塑料柜的家具收纳安排" }
     ],
     inputPlaceholder: "输入问题或需求，或拍照上传购物小票/实物…",
     agentName: "智能管家",
@@ -974,23 +1070,82 @@ const I18N = {
     pageTitle: "3LDK 3人家族の収納＆生活購買スマート執事",
     brandTitle: "3LDK 3人家族の収納＆生活購買スマート執事",
     badgePill: "Gemini 3.6 Flash",
-    brandSubtitle: "3LDK間取り図 · レシート画像認識 · 買い物チェックリスト · 賞味期限アラート",
+    brandSubtitle: "3LDK家具配置図 · 使用中と備蓄の連携 · レシート画像認識 · 買い物チェックリスト",
     toggleMap: "3LDK 間取り",
     statusOnline: "Agent Runtime 稼働中",
-    sidebarTitle: "3LDK 空間収納バードビュー",
-    sidebarSubtitle: "エリアをクリックして、保管されているアイテムと在庫を確認",
+    sidebarTitle: "3LDK 空間家具＆収納バードビュー",
+    sidebarSubtitle: "エリアをクリックして、家具の配置、収納階層、保管アイテムと在庫を確認",
+    furnitureLabel: "家具構成",
+    hierarchyLabel: "収納階層",
     rooms: [
-      { name: "🚪 玄関・廊下 (Entrance)", badge: "玄関エリア", desc: "シューズボックス、壁掛けフック、傘立て", items: "📍 開梱用ハサミ、靴クリーム、予備キー", query: "【玄関】に収納されているすべての物品と位置を教えて" },
-      { name: "🛋️ LDK・オープンキッチン", badge: "メイン居住区", desc: "大型冷蔵庫、調味料ラック、ダイニングテーブル", items: "📍 本みりん、牛乳、調味料、日用雑貨", query: "【LDK・キッチン】の食材と賞味期限の状態を教えて" },
-      { name: "🖥️ 東寝室・書斎ワークスペース", badge: "作業・学習区", desc: "1m独立デスク、デスク下引き出し、ペン立て", items: "📍 文具ハサミ、ガジェット類、文房具", query: "【東寝室・書斎】にある文房具や備品を教えて" },
-      { name: "🗄️ 主寝室・押入れクローゼット", badge: "就寝・収納区", desc: "和風大型押入れ、ベッドサイド収納", items: "📍 季節外れの羽毛布団、スーツケース、掃除機", query: "【主寝室・押入れ】にしまってある荷物を教えて" },
-      { name: "📦 西部屋・子供部屋＆ストック倉庫", badge: "家族の備蓄区", desc: "4段メタルラック、半透明収納ボックス", items: "📍 ティッシュペーパー箱買い、洗濯洗剤、お米", query: "【西部屋・ストック倉庫】にある日用品の備蓄在庫を教えて" }
+      {
+        name: "🚪 玄関・廊下 (Entrance)",
+        badge: "玄関エリア",
+        desc: "帰宅・外出の動線、荷解き用ハサミと鍵・雨具の収納",
+        furniture: "フロートシューズボックス、マグネット式フック、分電盤カバー",
+        hierarchy: "最上段(季節外靴) | 中段トレイ(鍵・認印) | 下段(常用靴) | フック(開梱ハサミ)",
+        items: "📍 荷解き用ハサミ、予備の鍵、認め印・シャチハタ",
+        rule: "💡 帰宅時に鍵・印鑑を定位置へ。ハサミは高めのフックで子供の手が届かない配慮",
+        query: "【玄関】の家具配置と収納されているすべての物品を教えて"
+      },
+      {
+        name: "🛋️ LDK・オープンキッチン",
+        badge: "メイン居住区",
+        desc: "3人家族の食事・団らん、料理と食品鮮度管理",
+        furniture: "1.7m天然木テーブル、450Lスマート冷蔵庫、ダンパー引き出し、ソファ・プロジェクター",
+        hierarchy: "食卓中央ティッシュ/小引き出し | 冷蔵庫各室 | コンロ下スライド収納",
+        items: "📍 本みりん、牛乳、調味料、食卓ティッシュ、家庭用プロジェクター",
+        rule: "💡 食卓のティッシュが切れたら西部屋のストックから補充（無駄買い防止）",
+        query: "【LDK・キッチン】の家具レイアウト、冷蔵庫の食材と食卓収納を教えて"
+      },
+      {
+        name: "🖥️ 東寝室・書斎ワークスペース",
+        badge: "作業・学習区",
+        desc: "テレワーク・集中学習、デジタル機器と重要書類の管理",
+        furniture: "1m天然木ワークデスク、デスク下3段スライドワゴン、壁面ウォールシェルフ",
+        hierarchy: "天板ペン立て | 引き出し1段目(爪切り) | 2段目(電池・配線) | 3段目(重要書類)",
+        items: "📍 文具ハサミ、飛び散り防止爪切り、急速充電モバイルバッテリー、重要書類",
+        rule: "💡 重要書類は深型引き出しに保管。書斎専用ハサミを置き、玄関ハサミと区別",
+        query: "【東寝室・書斎】のデスク家具と文房具・重要書類の収納を教えて"
+      },
+      {
+        name: "🗄️ 主寝室・押入れクローゼット",
+        badge: "就寝・収納区",
+        desc: "夫婦の寝室、大型季節外荷物と家庭用救急箱の集中保管",
+        furniture: "1.8mダブルベッド、伝統的和風大型押入れ (天袋/中段/下段)、ベッドサイドテーブル",
+        hierarchy: "天袋(空スーツケース/工具箱) | 中段(コート掛け/救急箱) | 下段(衣替え用衣装ケース3個)",
+        items: "📍 28インチスーツケース、工具ドライバーセット、イブプロフェン、絆創膏",
+        rule: "💡 救急箱は中段の遮光エリアで子供の誤飲防止。大型空箱は天袋で床を広く使用",
+        query: "【主寝室・押入れ】の天袋・中段・下段衣装ケースの収納配置を詳しく教えて"
+      },
+      {
+        name: "📦 西部屋・子供部屋＆ストック倉庫",
+        badge: "家族の備蓄総倉庫",
+        desc: "子供の成長空間、生活必需品のまとめ買い戦略備蓄庫",
+        furniture: "子供用ベッド・おもちゃ収納棚、4枚扉大型クローゼット (備蓄総倉庫)",
+        hierarchy: "クローゼット最上段(扇風機/羽毛布団) | 中段(子供服) | 最下段(大容量備蓄区)",
+        items: "📍 箱買いティッシュ(12パック)、詰替洗濯洗剤(2kg*2)、大容量食器洗剤、米5kg",
+        rule: "💡 家族のストック総拠点！各部屋で切れたらまずここから出し、重複購入を防止",
+        query: "【西部屋・ストック倉庫】にある大容量備蓄品と季節家電を教えて"
+      },
+      {
+        name: "🚿 洗面所・浴室＆ランドリーバルコニー",
+        badge: "水回り家事区",
+        desc: "洗面スキンケア、家族の洗濯・部屋干しと洗剤ストック",
+        furniture: "スマート三面鏡裏収納、洗面台下キャビネット、バルコニー用アルミ洗濯機ラック",
+        hierarchy: "三面鏡(替ブラシ/歯ブラシ) | 台下(除菌洗剤) | 洗濯機ラック(使用中洗剤2袋)",
+        items: "📍 電動歯ブラシ替ブラシ(4本)、除菌洗濯洗剤(使用中2袋)",
+        rule: "💡 使用中洗剤は2袋常備、使い切ったら西部屋から補充。強力洗剤は上部に保管",
+        query: "【洗面所・バルコニー】の洗面用品と洗濯洗剤の収納を教えて"
+      }
     ],
-    greeting: "こんにちは！あなたの 3LDK 3人家族の収納＆生活購買スマート執事です。\n\n✨ 主な機能：\n1. 3LDK インタラクティブ間取り図\n2. レシート・商品のカメラ画像認識\n3. 買い物チェックリスト＆在庫自動更新\n4. 賞味期限ビジュアルプログレスバー\n5. 日本語・英語・中国語の完全マルチリンガル対応！",
+    greeting: "こんにちは！3人家族のための 3LDK 収納＆生活購買スマート執事です。\n\n✨ 新たに強化された機能：\n1. 🏠 3LDK 6大エリアの家具配置＆収納階層（押入れ天袋/中段/下段、デスク3段引き出しなど）\n2. 📦 使用中アイテムと西部屋備蓄倉庫の連携比較（使用中切れは内部補充を優先案内）\n3. 🧾 レシート・商品のカメラ画像認識と賞味期限管理\n4. 🛒 インタラクティブな買い物チェックリスト\n5. 🌐 日本語・英語・中国語の完全マルチリンガル対応！",
     prompts: [
+      { icon: "chair", label: "全部屋の家具配置と収納一覧", text: "全部屋の家具配置と3LDK空間収納の全体概要を教えて" },
+      { icon: "inventory_2", label: "使用中と西部屋備蓄の比較", text: "各部屋の使用中日用品と西部屋ストック倉庫の在庫を比較して" },
       { icon: "content_cut", label: "ハサミはどこにありますか？", text: "ハサミはどこに置いてありますか？" },
-      { icon: "shopping_cart_checkout", label: "在庫を確認して買い物リストを作成", text: "冷蔵庫と備蓄を確認して、優先度の高い家庭用買い物リストを作成してください" },
-      { icon: "photo_camera", label: "本みりんのビジュアル写真を生成", text: "キッチンにある本みりんの素敵な写真を生成してください" }
+      { icon: "shopping_cart_checkout", label: "買い物リストを作成", text: "冷蔵庫と備蓄を確認して、優先度の高い家庭用買い物リストを作成してください" },
+      { icon: "shelves", label: "主寝室・押入れ3段収納の詳細", text: "主寝室の押入れ天袋・中段・下段衣装ケースの家具収納配置を詳しく教えて" }
     ],
     inputPlaceholder: "質問を入力、またはレシート・商品の写真を撮影…",
     agentName: "スマート執事",
@@ -1002,23 +1157,82 @@ const I18N = {
     pageTitle: "3LDK Family Home Inventory & Shopping Butler",
     brandTitle: "3LDK Family Home & Inventory Butler",
     badgePill: "Gemini 3.6 Flash",
-    brandSubtitle: "Interactive Floorplan · Receipt Vision Intake · Smart Checklist · Freshness Tracker",
+    brandSubtitle: "Furniture Map · In-Use vs Bulk Storage Sync · Receipt Vision Intake · Smart Checklist",
     toggleMap: "3LDK Floorplan",
     statusOnline: "Agent Runtime Connected",
-    sidebarTitle: "3LDK Spatial Layout Explorer",
-    sidebarSubtitle: "Click any zone to inspect storage spots and stock levels",
+    sidebarTitle: "3LDK Spatial Furniture & Storage Explorer",
+    sidebarSubtitle: "Click any zone to inspect furniture arrangement, storage tiers, and real-time items",
+    furnitureLabel: "Furniture Layout",
+    hierarchyLabel: "Storage Hierarchy",
     rooms: [
-      { name: "🚪 Entrance & Foyer", badge: "Entrance", desc: "Shoe cabinet, wall hooks, umbrella rack", items: "📍 Unboxing scissors, shoe care, spare keys", query: "Show all items and storage spots in the Entrance" },
-      { name: "🛋️ LDK & Open Kitchen", badge: "Living Area", desc: "Smart fridge, pantry spice rack, dining table", items: "📍 Mirin, fresh milk, daily pantry essentials", query: "Show all items and freshness status in LDK & Kitchen" },
-      { name: "🖥️ East Bedroom (Home Office)", badge: "Workzone", desc: "1m desk, under-desk organizer, pen cup", items: "📍 Desk scissors, tech gadgets, stationery", query: "Show all stationery and equipment in the East Study" },
-      { name: "🗄️ Master Bedroom (Oshiire Closet)", badge: "Sleep & Closet", desc: "Traditional Oshiire closet, bedside storage", items: "📍 Seasonal bedding, suitcases, cordless vacuum", query: "Show all items stored in Master Bedroom Oshiire closet" },
-      { name: "📦 West Bedroom (Kids & Storage)", badge: "Stockroom", desc: "4-tier metal shelves, clear storage bins", items: "📍 Boxed facial tissue, laundry detergent, rice", query: "Show all bulk backup supplies in West Storage" }
+      {
+        name: "🚪 Entrance & Foyer",
+        badge: "Entrance",
+        desc: "Entryway traffic flow, package unboxing, keys and umbrella station",
+        furniture: "Floating 3-tier shoe cabinet, magnetic walnut hook rack, electrical panel",
+        hierarchy: "Top shelf(seasonal shoes) | Middle tray(keys & seal) | Bottom(daily shoes) | Hook(unboxing scissors)",
+        items: "📍 Dedicated package unboxing scissors, spare house keys, Inkan seal",
+        rule: "💡 Keys return to entry tray immediately; unboxing scissors placed high away from toddlers",
+        query: "Show all furniture and stored items in the Entrance"
+      },
+      {
+        name: "🛋️ LDK & Open Kitchen",
+        badge: "Living Area",
+        desc: "Family dining, leisure, culinary preparation and grocery freshness",
+        furniture: "1.7m solid oak table, 450L smart fridge, slide-out pantry racks, sofa, home projector",
+        hierarchy: "Dining table tissue tray/remote drawer | Fridge zones | Stove cabinet slide-outs",
+        items: "📍 Mirin, fresh milk, daily seasonings, table facial tissue, home cinema projector",
+        rule: "💡 High turnover area; when dining tissues run out, pull backup from West Storage before buying",
+        query: "Show LDK furniture layout, fridge groceries and dining table storage"
+      },
+      {
+        name: "🖥️ East Bedroom (Home Office)",
+        badge: "Workzone",
+        desc: "Remote workstation, digital accessories and critical family legal documents",
+        furniture: "1m solid wood desk, 3-tier sliding drawer cabinet, wall-mounted display shelves",
+        hierarchy: "Desk pen cup | Drawer tier 1(nail clippers) | Tier 2(batteries/cables) | Tier 3(family deeds)",
+        items: "📍 Office scissors, anti-splash nail clippers, 65W power bank, passports & contracts",
+        rule: "💡 Critical papers secured in tier 3; separate desk scissors kept to avoid searching the entrance",
+        query: "Show East Study desk furniture, stationery and document storage"
+      },
+      {
+        name: "🗄️ Master Bedroom (Oshiire Closet)",
+        badge: "Sleep & Closet",
+        desc: "Master suite sleep space, large seasonal gear and family first-aid station",
+        furniture: "1.8m double bed, classic high-capacity Japanese Oshiire wall closet, floating nightstands",
+        hierarchy: "Tenbukuro top shelf(empty suitcases/tools) | Middle rack(clothing/medicine box) | Bottom drawers(seasonal clothes)",
+        items: "📍 28-inch suitcase, hardware screw set, Ibuprofen capsules, bandages, bedside remotes",
+        rule: "💡 First-aid kit kept safe on middle shelf; empty suitcases stored in top Tenbukuro to free floors",
+        query: "Explain the Master Bedroom Oshiire closet storage breakdown (Tenbukuro, middle rack, lower drawers)"
+      },
+      {
+        name: "📦 West Bedroom (Kids & Storage Hub)",
+        badge: "Bulk Stockpile",
+        desc: "Kids growth room and the family central strategic bulk consumable stockpile",
+        furniture: "Kids bed, toy low-boy organizer, 4-door closed wardrobe (Central Bulk Stockpile)",
+        hierarchy: "Wardrobe top shelf(stand fan/heavy quilts) | Middle(kids clothes) | Bottom(bulk consumables reserve)",
+        items: "📍 Boxed facial tissue (12-pack), laundry detergent refill (2kg*2), dish soap refill, 5kg rice",
+        rule: "💡 Family central supply hub! Restock empty rooms from here first to prevent duplicate purchases",
+        query: "Show all bulk consumable reserves and seasonal appliances in West Storage"
+      },
+      {
+        name: "🚿 Washroom & Laundry Balcony",
+        badge: "Bath & Laundry",
+        desc: "Morning skincare routine, family laundry washing and cleaning supplies",
+        furniture: "Smart 3-door mirror cabinet, vanity under-sink cabinet, aluminum washer cabinet unit",
+        hierarchy: "Mirror cabinet(brush heads/toiletries) | Under-sink(disinfectant) | Washer counter(in-use detergent)",
+        items: "📍 Electric toothbrush replacement heads (4-pack), laundry detergent (2 in-use bottles)",
+        rule: "💡 Keep 2 bottles in active rotation; pull replacements from West Storage once depleted",
+        query: "Show toiletries and laundry supplies in Washroom and Balcony"
+      }
     ],
-    greeting: "Hello! I am your 3LDK Family Home Inventory & Procurement Butler.\n\n✨ Features ready:\n1. 3LDK Interactive Floorplan Explorer\n2. Multimodal Receipt & Item Vision Intake\n3. Interactive Shopping Checklist with Instant Stock Sync\n4. Food Freshness & Expiry Visual Progress Indicators\n5. Seamless Trilingual Support (Japanese, English, and Chinese)!",
+    greeting: "Hello! I am your 3LDK Family Home Inventory & Procurement Butler.\n\n✨ Newly Enhanced Capabilities:\n1. 🏠 Detailed 3LDK Furniture Layout & Tiered Storage Breakdown (Oshiire Tenbukuro/Mid/Lower, 3-tier desk drawers)\n2. 📦 In-Use vs West Storage Bulk Stockpile Coordination (internal restock before outside shopping)\n3. 🧾 Multimodal Receipt & Item Vision Intake with Expiry Indicators\n4. 🛒 Interactive Shopping Checklist with Instant Stock Sync\n5. 🌐 Seamless Trilingual Support (Japanese, English, and Chinese)!",
     prompts: [
+      { icon: "chair", label: "Furniture & Storage Overview", text: "Give me an overview of all room furniture layouts and 3LDK storage arrangement" },
+      { icon: "inventory_2", label: "In-Use vs West Backup Stock", text: "Compare in-use consumables in all rooms against backup stock in the West Storage" },
       { icon: "content_cut", label: "Where are the scissors?", text: "Where are the scissors located?" },
-      { icon: "shopping_cart_checkout", label: "Generate family shopping list", text: "Check fridge and storage to generate a prioritized family shopping list" },
-      { icon: "photo_camera", label: "Generate photo of Mirin", text: "Generate an aesthetic visual photo of Mirin in the kitchen" }
+      { icon: "shopping_cart_checkout", label: "Generate shopping list", text: "Check fridge and storage to generate a prioritized family shopping list" },
+      { icon: "shelves", label: "Master Bedroom Oshiire Breakdown", text: "Explain the Master Bedroom Oshiire closet storage breakdown across Tenbukuro, middle rack, and lower drawers" }
     ],
     inputPlaceholder: "Ask a question, or take a picture of receipts/items…",
     agentName: "Butler",
@@ -1075,20 +1289,24 @@ function applyLanguage(lang) {
   if (isoBadge) {
     isoBadge.textContent = lang === "ja" ? "3D 間取りビュー" : (lang === "en" ? "3D Isometric View" : "3D 空间立体鸟瞰图");
   }
+  const washLbl = document.getElementById("iso-lbl-wash");
   if (lang === "ja") {
     document.getElementById("iso-lbl-ldk").textContent = "LDK";
+    if (washLbl) washLbl.textContent = "洗面浴室";
     document.getElementById("iso-lbl-bed1").textContent = "書斎";
     document.getElementById("iso-lbl-bed2").textContent = "主寝室";
     document.getElementById("iso-lbl-bed3").textContent = "倉庫";
     document.getElementById("iso-lbl-genkan").textContent = "玄関";
   } else if (lang === "en") {
     document.getElementById("iso-lbl-ldk").textContent = "LDK";
+    if (washLbl) washLbl.textContent = "Wash";
     document.getElementById("iso-lbl-bed1").textContent = "Study";
     document.getElementById("iso-lbl-bed2").textContent = "Master";
     document.getElementById("iso-lbl-bed3").textContent = "Storage";
     document.getElementById("iso-lbl-genkan").textContent = "Foyer";
   } else {
     document.getElementById("iso-lbl-ldk").textContent = "客餐厨";
+    if (washLbl) washLbl.textContent = "卫浴";
     document.getElementById("iso-lbl-bed1").textContent = "书房";
     document.getElementById("iso-lbl-bed2").textContent = "主卧";
     document.getElementById("iso-lbl-bed3").textContent = "储物";
@@ -1124,7 +1342,10 @@ function applyLanguage(lang) {
         <span class="room-badge">${r.badge}</span>
       </div>
       <p class="room-desc">${r.desc}</p>
-      <p class="room-highlight-items">${r.items}</p>
+      <div class="room-furniture-line"><span class="rf-icon">🛋️</span> <span><strong>${t.furnitureLabel || '家具配置'}:</strong> ${r.furniture}</span></div>
+      <div class="room-hierarchy-line"><span class="rf-icon">🗄️</span> <span><strong>${t.hierarchyLabel || '收纳层级'}:</strong> ${r.hierarchy}</span></div>
+      <div class="room-highlight-items">${r.items}</div>
+      <div class="room-rule-tag">${r.rule}</div>
     `;
     card.addEventListener("click", () => {
       document.querySelectorAll(".room-card").forEach(c => c.classList.remove("active"));

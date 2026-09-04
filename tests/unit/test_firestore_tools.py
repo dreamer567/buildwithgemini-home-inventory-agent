@@ -17,6 +17,8 @@ def test_agent_tools_and_callbacks_configured():
     assert "generate_replenishment_shopping_list" in tool_names
     assert "generate_item_image" in tool_names
     assert "generate_item_video" in tool_names
+    assert "get_room_furniture_layout" in tool_names
+    assert "compare_in_use_vs_backup_stock" in tool_names
     assert root_agent.code_executor is not None
     assert root_agent.after_agent_callback is generate_memories_callback
 

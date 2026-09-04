@@ -383,3 +383,291 @@ def generate_shopping_plan() -> Dict[str, Any]:
         "perishable_consumption_or_replace": replace_list,
         "tips_for_family_living": "三口之家采购小贴士：绿叶蔬菜与生鲜水果按全家2-3天消耗量适量采购，保证营养与新鲜；抽纸、洗洁精、洗衣液等高频消耗品可按家庭装备货囤入西卧储物间。",
     }
+
+
+# ==============================================================================
+# 🏠 3LDK 全屋家具布局、收纳层级与动线规则知识库 (Furniture & Storage Hierarchy)
+# ==============================================================================
+ROOM_FURNITURE_DIRECTORY: Dict[str, Dict[str, Any]] = {
+    "玄关": {
+        "name": "🚪 玄关与走廊 (Entrance & Foyer)",
+        "english_name": "Entrance & Foyer",
+        "japanese_name": "玄関・廊下",
+        "zone_type": "入户缓冲与日常动线区",
+        "family_function": "外出归家过渡、外穿衣帽鞋履更替、快递拆箱与重要凭证暂存",
+        "furniture_layout": [
+            {
+                "piece": "悬空定制三段式鞋柜",
+                "sub_zones": [
+                    {"level": "顶层高柜", "usage": "换季鞋盒、备用鞋油鞋刷、室内访客备用拖鞋"},
+                    {"level": "中段开放随手置物台", "usage": "钥匙收纳盘（家门备用钥匙）、认印印章盒、外出便携消毒喷雾、口罩盒"},
+                    {"level": "底段悬空常穿位", "usage": "一家三口日常高频穿着鞋靴、居家拖鞋（便于一脚蹬换）"},
+                ],
+            },
+            {
+                "piece": "入户胡桃木磁吸挂钩排",
+                "sub_zones": [
+                    {"level": "左侧挂钩", "usage": "长柄雨伞、折叠伞专用收纳袋"},
+                    {"level": "右侧磁吸位", "usage": "拆快递专用防飞溅剪刀、环保购物帆布袋"},
+                ],
+            },
+            {
+                "piece": "弱电与配电箱暗盒",
+                "sub_zones": [
+                    {"level": "箱内收纳", "usage": "千兆光猫路由器、备用保险丝与门禁卡电池"},
+                ],
+            },
+        ],
+        "inventory_rules": "入户随手归位，钥匙与印章必须置于中段收纳盘；拆箱剪刀吸附固定于挂钩右侧，严防幼儿随意碰触。",
+    },
+    "LDK客餐厨": {
+        "name": "🛋️ LDK 客餐厨 (Living, Dining & Kitchen)",
+        "english_name": "Living, Dining & Kitchen",
+        "japanese_name": "LDK・リビングダイニングキッチン",
+        "zone_type": "核心家庭生活与餐饮区",
+        "family_function": "一家三口用餐、互动娱乐、烹饪料理与全家营养食材保鲜",
+        "furniture_layout": [
+            {
+                "piece": "1.7米白橡木家庭大餐桌 + 4张餐椅 + 2张折叠备用凳",
+                "sub_zones": [
+                    {"level": "餐桌中央置物托盘", "usage": "水果盘（常温香蕉/苹果）、在用原木抽纸盒、隔热餐垫"},
+                    {"level": "桌底收纳悬挂抽屉", "usage": "客厅空调遥控器、便携指甲锉、随手记事便签"},
+                ],
+            },
+            {
+                "piece": "三人位亲肤布艺沙发 + 可移动极简边几",
+                "sub_zones": [
+                    {"level": "沙发靠背储物袋", "usage": "投影仪遥控器、平板支架、亲子绘本与抱枕靠垫"},
+                    {"level": "移动边几台面与底层", "usage": "家用高清投影仪（直投客厅正向主墙面）、多口快充无线充电板"},
+                    {"level": "沙发与餐桌过道", "usage": "落地变频静音循环扇（在用）"},
+                ],
+            },
+            {
+                "piece": "450L 双门风冷无霜智能冰箱",
+                "sub_zones": [
+                    {"level": "冷藏室上层/中层 (2°C~5°C)", "usage": "鲜牛奶(1L)、即食酸奶、开封调味酱料、熟食密封保鲜盒"},
+                    {"level": "保鲜果蔬抽屉 (6°C~8°C)", "usage": "高湿绿叶蔬菜、彩椒、胡萝卜、蓝莓水果"},
+                    {"level": "冰箱门内侧蛋架与深层瓶架", "usage": "可生食鸡蛋8枚（大头朝上）、开封万能味醂、纯正生抽、番茄沙司"},
+                    {"level": "超低温速冻抽屉 (-18°C)", "usage": "儿童辅食肉泥、原切牛排、分装肉糜、冷冻三文鱼片"},
+                ],
+            },
+            {
+                "piece": "一体化橱柜烹饪系统 (阻尼拉篮 + 水槽柜 + 吊柜)",
+                "sub_zones": [
+                    {"level": "灶台下方双层阻尼拉篮", "usage": "万能味醂、特级初榨橄榄油、料理清酒、生抽老抽、平底不粘锅、深炖锅"},
+                    {"level": "水槽下方防水不锈钢抽屉柜", "usage": "浓缩去油洗洁精(在用)、点断式加厚垃圾袋、百洁布洗碗海绵、厨余沥水网袋"},
+                    {"level": "厨房通风台面/置物架", "usage": "常温西红柿(果蒂朝下熟透中)、洋葱土豆避光透气果蔬筐"},
+                ],
+            },
+        ],
+        "inventory_rules": "高频开封调味品必须冷藏；临期食材在前排优先消耗；餐桌抽纸余量低于1包时联动西卧备货仓取用。",
+    },
+    "东卧书房": {
+        "name": "🖥️ 东卧·独立书房 (East Study / Workstation)",
+        "english_name": "East Study & Workstation",
+        "japanese_name": "東寝室・書斎ワークスペース",
+        "zone_type": "深度办公学习与数码资产区",
+        "family_function": "夫妻居家办公、远程视频会议、儿童学业辅导与数码设备维保",
+        "furniture_layout": [
+            {
+                "piece": "1米北欧极简实木独立书桌 + 人体工学办公转椅",
+                "sub_zones": [
+                    {"level": "桌面右上角", "usage": "极简笔筒（书房文具剪刀、荧光笔、触控笔）、快充移动电源 20000mAh、无线鼠标垫"},
+                    {"level": "桌面线缆理线槽", "usage": "65W 多口氮化镓充电头、Type-C 编织快充线、铝合金笔记本升降支架"},
+                ],
+            },
+            {
+                "piece": "桌下三层静音滑轨活动抽屉柜",
+                "sub_zones": [
+                    {"level": "第一层浅抽屉", "usage": "指甲刀套装(防飞溅款)、便签纸、回形针、加密U盘"},
+                    {"level": "第二层中抽屉", "usage": "数码连接线、备用AA/AAA碱性电池、科学计算器"},
+                    {"level": "第三层高抽屉", "usage": "一家三口重要证件袋、房产合同、家庭医疗保单、出生证明"},
+                ],
+            },
+            {
+                "piece": "双层墙面胡桃木隔板置物架",
+                "sub_zones": [
+                    {"level": "下层随手格", "usage": "书房空调与顶灯遥控器（壁挂磁吸槽）、常用专业书籍与辞海"},
+                    {"level": "上层展示格", "usage": "家庭温馨合影相框、头戴式无线降噪耳机、多肉盆栽"},
+                ],
+            },
+        ],
+        "inventory_rules": "数码资产与重要证件分层归类；常用文具书房常备1套，避免频繁往返客厅拿取。",
+    },
+    "中卧主卧": {
+        "name": "🗄️ 中卧·起居主卧 (Master Bedroom & Oshiire)",
+        "english_name": "Master Bedroom & Oshiire",
+        "japanese_name": "主寝室・押入れクローゼット",
+        "zone_type": "主卧就寝与核心衣物被褥收纳区",
+        "family_function": "夫妻主卧休息就寝、家庭换季衣物大件与家庭安全医药集中收纳",
+        "furniture_layout": [
+            {
+                "piece": "1.8米实木双人主卧大床 + 软包床头 + 两侧超窄悬空床头几",
+                "sub_zones": [
+                    {"level": "床头左侧悬空柜", "usage": "温湿度计、护手霜、真丝睡眠眼罩、睡前读物"},
+                    {"level": "床头右侧随手抽屉盒", "usage": "中卧空调与顶灯遥控器、磁吸手机充电线"},
+                ],
+            },
+            {
+                "piece": "经典和式大容量押入壁橱 (Oshiire - 双层深进深推拉门设计)",
+                "sub_zones": [
+                    {"level": "【上层·天袋 Tenbukuro】", "usage": "28寸铝镁合金空行李箱、20寸登机箱、家庭五金零件与多功能工具螺丝箱（极低频，高处安全储存）"},
+                    {"level": "【中层·挂衣区与多功能隔板】", "usage": "防尘袋外套西装、当季大衣、壁橱内侧随手格（中卧备用遥控器）、专用家庭避光小药箱（布洛芬缓释胶囊12粒、医用无菌创口贴、碘伏消毒棉棒、耳温枪）"},
+                    {"level": "【下层·抽屉式透明塑料收纳柜组】", "usage": "三组并排深抽屉箱，分类收纳夫妻二人换季贴身衣物、备用纯棉床单枕套、轻薄夏凉被"},
+                ],
+            },
+        ],
+        "inventory_rules": "家庭医药箱集中在中层避光干燥处，高度远离幼儿；大件空箱集中上层天袋，不占用地面生活动线。",
+    },
+    "西卧储物间": {
+        "name": "📦 西卧·儿童房与储物备货区 (West Room - Kids & Storage Hub)",
+        "english_name": "West Bedroom (Kids & Storage Hub)",
+        "japanese_name": "西部屋・子供部屋＆ストック倉庫",
+        "zone_type": "儿童成长空间与家庭大宗物资战略备货仓",
+        "family_function": "孩子独立成长游戏、家庭高频日用品大宗囤货、大件换季寝具与闲置家电封存",
+        "furniture_layout": [
+            {
+                "piece": "儿童成长单人床 + 玩具图书分类矮柜",
+                "sub_zones": [
+                    {"level": "矮柜上层分类布盒", "usage": "儿童拼图积木、益智玩具、精装绘本图书"},
+                    {"level": "床底滚轮防尘储物箱", "usage": "儿童换季衣物、保暖纯棉睡袋"},
+                ],
+            },
+            {
+                "piece": "独立封闭式四门大衣柜 (家庭大宗战略备货中枢)",
+                "sub_zones": [
+                    {"level": "【衣柜最上层·封闭隔层】", "usage": "闲置备用落地电风扇（套防尘保护罩）、客用加厚保暖羽绒棉被1床、备用换季被芯"},
+                    {"level": "【衣柜中层·悬挂与叠放区】", "usage": "儿童羽绒服、厚外套、待熨烫换洗衣物"},
+                    {"level": "【衣柜最下层·大宗物资备货战略区】", "usage": "整箱原木抽纸囤货（整箱12包装备用）、浓缩去油洗洁精(大容量补充装1kg)、蓝月亮洗衣液补充装(2kg*2)、优质五常大米(5kg未拆封)"},
+                ],
+            },
+        ],
+        "inventory_rules": "家庭战略物资总仓！客厅/卫生间日用品余量触底时，直接从西卧下层调拨，避免盲目重复采购。",
+    },
+    "洗面所与阳台": {
+        "name": "🚿 洗面所、卫浴与家政阳台 (Washroom, Bath & Balcony)",
+        "english_name": "Washroom, Bath & Balcony",
+        "japanese_name": "洗面所・浴室＆ランドリーバルコニー",
+        "zone_type": "全家洗漱、卫浴清洁与家政洗晒区",
+        "family_function": "一家三口早晚清洁、全家衣物洗护烘干与清洁耗材收纳",
+        "furniture_layout": [
+            {
+                "piece": "智能三门镜柜 + 洗手台一体式浴室柜",
+                "sub_zones": [
+                    {"level": "智能镜柜中间隔层", "usage": "电动牙刷替换刷头(4支装)、儿童防蛀牙膏、护肤水乳、牙线盒、棉签化妆棉"},
+                    {"level": "洗手台下方防水柜", "usage": "备用洗手液补充袋、管道疏通剂、次氯酸消毒喷雾"},
+                ],
+            },
+            {
+                "piece": "阳台全铝洗衣机一体组合柜",
+                "sub_zones": [
+                    {"level": "洗衣机台面置物格", "usage": "蓝月亮除菌洗衣液(在用2包)、衣物柔顺剂、除菌留香珠"},
+                    {"level": "侧边窄缝收纳推车", "usage": "晾衣架20只、被夹、防风夹、脏衣分类篮"},
+                ],
+            },
+        ],
+        "inventory_rules": "洗涤剂常备2包在用，用完1包触发西卧备货仓补给；卫浴化学品高处镜柜存放，杜绝儿童触碰。",
+    },
+}
+
+
+def get_room_furniture_layout(room_name: str = "") -> Dict[str, Any]:
+    """查询 3LDK 各房间的家具安排、收纳层级（如押入天袋/中层/下层）与动线规则。
+
+    Args:
+        room_name: 房间名称关键词，如'玄关'、'LDK'、'客厅'、'书房'、'主卧'、'西卧'、'储物'、'阳台'。
+                   若为空，则返回全屋所有房间的家具布局总览。
+
+    Returns:
+        包含指定房间或全屋的家具配置清单、各家具内部细分收纳格、存放用途与当前房间内的实际物品列表。
+    """
+    items = _load_data()
+    q = room_name.strip().lower()
+
+    # Find matching rooms
+    matched_rooms = {}
+    for key, room_info in ROOM_FURNITURE_DIRECTORY.items():
+        if (
+            not q
+            or q in key.lower()
+            or q in room_info["name"].lower()
+            or q in room_info.get("english_name", "").lower()
+            or q in room_info.get("japanese_name", "").lower()
+        ):
+            # Attach current live items located in this room
+            room_items = [
+                it for it in items
+                if any(k in it.get("location", "") for k in [key, room_info.get("japanese_name", ""), room_info.get("english_name", "")])
+            ]
+            info_copy = dict(room_info)
+            info_copy["current_items_count"] = len(room_items)
+            info_copy["current_items"] = [
+                {
+                    "name": it.get("name"),
+                    "quantity": f"{it.get('quantity')} {it.get('unit', '')}",
+                    "location": it.get("location"),
+                    "notes": it.get("notes", ""),
+                }
+                for it in room_items
+            ]
+            matched_rooms[key] = info_copy
+
+    if not matched_rooms:
+        return {
+            "status": "not_found",
+            "message": f"未找到与 '{room_name}' 匹配的 3LDK 房间。可选房间：玄关、LDK客餐厨、东卧书房、中卧主卧、西卧储物间、洗面所与阳台。",
+            "available_rooms": list(ROOM_FURNITURE_DIRECTORY.keys()),
+        }
+
+    return {
+        "status": "success",
+        "matched_count": len(matched_rooms),
+        "rooms": matched_rooms,
+    }
+
+
+def compare_in_use_vs_backup_stock() -> Dict[str, Any]:
+    """对比各房间正在使用的日常消耗品与西卧封闭衣柜储物间的战略备货储备，避免盲目重复采购。
+
+    Returns:
+        按物品对比在用位置余量与西卧备货仓库存，并提供针对性的内部调拨或外购建议。
+    """
+    items = _load_data()
+
+    # Define linked consumable pairs: in-use keyword -> backup keyword
+    linkages = [
+        {"item_name": "原木抽纸", "in_use_loc": "LDK客餐厨", "backup_loc": "西卧储物间"},
+        {"item_name": "浓缩去油洗洁精", "in_use_loc": "LDK客餐厨", "backup_loc": "西卧储物间"},
+        {"item_name": "蓝月亮洗衣液", "in_use_loc": "洗面所与阳台", "backup_loc": "西卧储物间"},
+        {"item_name": "电风扇", "in_use_loc": "LDK客餐厨", "backup_loc": "西卧储物间"},
+    ]
+
+    comparisons = []
+    for link in linkages:
+        name = link["item_name"]
+        in_use_items = [it for it in items if name in it.get("name", "") and "在用" in it.get("notes", "") or (name in it.get("name", "") and "在用" in it.get("name", ""))]
+        backup_items = [it for it in items if name in it.get("name", "") and ("备货" in it.get("name", "") or "补充" in it.get("name", "") or "备用" in it.get("name", "") or "闲置" in it.get("name", ""))]
+
+        in_use_str = ", ".join([f"{it['name']} ({it['quantity']} {it['unit']}) 位于 {it['location']}" for it in in_use_items]) if in_use_items else "暂无在用记录"
+        backup_str = ", ".join([f"{it['name']} ({it['quantity']} {it['unit']}) 位于 {it['location']}" for it in backup_items]) if backup_items else "西卧备货仓无备用库存"
+
+        advice = "在用充足，备货稳健"
+        if in_use_items and any(float(it.get("quantity", 0)) <= float(it.get("min_threshold", 1)) for it in in_use_items):
+            if backup_items and any(float(it.get("quantity", 0)) > 0 for it in backup_items):
+                advice = "⚠️ 在用触底！但西卧备货仓有充足囤货，直接从西卧大衣柜下层取用调拨即可，无需外购！"
+            else:
+                advice = "🚨 在用与备货均见底！需要立即加入家庭外购采购清单！"
+
+        comparisons.append({
+            "item_category": name,
+            "in_use_status": in_use_str,
+            "backup_storage_status": backup_str,
+            "butler_recommendation": advice,
+        })
+
+    return {
+        "status": "success",
+        "description": "3LDK 三口之家在用物品 vs 西卧储物备货仓对比报告",
+        "comparisons": comparisons,
+        "golden_rule": "三口之家收纳铁律：日用耗材高频在用（少量便携）+ 西卧大宗备货（整箱集约），用完先调拨后采购，防止物品散乱堆积。",
+    }
