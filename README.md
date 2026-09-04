@@ -13,7 +13,19 @@
 
 ---
 
+## 🌐 快速访问与线上服务 (Live Access & Cloud Run)
+
+- 🚀 **Cloud Run 生产环境线上服务直达**：[https://home-inventory-frontend-885543773610.us-east1.run.app](https://home-inventory-frontend-885543773610.us-east1.run.app)
+  - 🇨🇳 [中文主界面 (默认入口)](https://home-inventory-frontend-885543773610.us-east1.run.app)
+  - 🇯🇵 [日本語版ダイレクトリンク (?lang=ja)](https://home-inventory-frontend-885543773610.us-east1.run.app/?lang=ja)
+  - 🇺🇸 [English Direct Link (?lang=en)](https://home-inventory-frontend-885543773610.us-east1.run.app/?lang=en)
+- 💻 **GitHub 开源仓库**: [https://github.com/dreamer567/buildwithgemini-home-inventory-agent](https://github.com/dreamer567/buildwithgemini-home-inventory-agent)
+- 🎁 **Build With Gemini 活动项目提交直达**: [Swag / Gallery 预填提交表单](https://docs.google.com/forms/d/e/1FAIpQLSfvbIUMrHLf2iUYVgQkr981unQwuLdigLB7yJp3VdtYH85Dzw/viewform?usp=pp_url&entry.896374137=https%3A%2F%2Fgithub.com%2Fdreamer567%2Fbuildwithgemini-home-inventory-agent&entry.339694639=home-inventory-agent&entry.82550013=A%20conversational%20agent%20that%20helps%20solo%20dwellers%20manage%20household%20assets%2C%20grocery%20freshness%2C%20and%20shopping%20replenishment%20with%20a%20catalog%20of%203LDK%20home%20items%20and%20pantry%20stock.)
+
+---
+
 ## 🌟 项目简介 (Overview)
+
 
 对于独居青年而言，3LDK（三室一厅）的大空间往往伴随着“**物品放哪找不着**”、“**同一件小工具重复购买**”、“**冰箱食材悄悄过期**”以及“**去趟超市不知道该补什么**”的痛点。
 
