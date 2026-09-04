@@ -4,6 +4,8 @@
 
 ![Demo](./assets/demo.gif)
 
+> 🎬 **全流程高清演示视频 (含 Google Lyria 生成的 Lo-Fi 律动背景音乐)**：可直接在 GitHub 播放或下载查看 [assets/agent_demo.webm](./assets/agent_demo.webm)
+
 ---
 
 ## 🌟 项目简介 (Overview)
