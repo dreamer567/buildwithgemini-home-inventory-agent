@@ -3,6 +3,7 @@
 Saves the generated image as a session artifact and uploads to the public GCS bucket.
 """
 
+import os
 import re
 from datetime import datetime, timezone
 from google import genai
@@ -10,8 +11,8 @@ from google.adk.tools import ToolContext
 from google.cloud import storage
 from google.genai import types
 
-PROJECT_ID = "qwiklabs-gcp-04-0e1a68c8e387"
-BUCKET_NAME = "home-inventory-assets-0e1a68c8e387"
+PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT", "qwiklabs-gcp-04-0e1a68c8e387")
+BUCKET_NAME = os.environ.get("HOME_INVENTORY_BUCKET", "home-inventory-assets-0e1a68c8e387")
 IMAGE_MODEL = "gemini-3.1-flash-lite-image"
 IMAGE_REGION = "global"
 

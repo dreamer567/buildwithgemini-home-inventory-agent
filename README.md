@@ -141,9 +141,101 @@ uv run pytest tests/unit
 
 ---
 
-## 💡 前端体验与进阶优化建议 (UI Improvement Suggestions)
+---
 
-1. **多模态图片识别录入 (Vision Intake)**：在输入框添加相机/图片上传按钮，支持用户拍照直接识别物品并自动填入名称、保质期和推荐存放位置。
-2. **交互式待办勾选回传 (Interactive A2UI Actions)**：将采购清单的 Checkbox 变为可交互组件，用户在前端打勾后，通过回调实时更新 Firestore 库存状态。
-3. **3LDK 户型平面图联动 (Interactive Floorplan)**：在左侧增加 3LDK 交互式户型平面缩略图，点击“东卧书房”或“中卧壁橱”即可高亮并过滤该区域所有物品。
-4. **保质期临期进度条 (Expiry Progress Bars)**：在物品卡片上添加直观的彩色剩余天数进度条（绿色安全、黄色临期、红色过期）。
+## 🚀 部署到个人 GCP 项目全流程指南 (Deploy to Your Own GCP Project)
+
+本项目设计完全解耦，**所有代码与配置均支持动态读取环境变量**。明天切换到您自己的个人 GCP 账号后，只需按照以下步骤，即可在 **10 分钟内** 完成全套无服务器托管部署。
+
+### 🌟 方式 A：一键全自动部署 (推荐)
+
+仓库已内置 `deploy_to_my_gcp.sh` 自动化脚本，按顺序为您自动开启 API、配置 Firestore、创建公开存储桶、灌入初始数据、部署 Agent Engine 与 Cloud Run 前端：
+
+```bash
+# 1. 克隆您的 GitHub 仓库
+git clone https://github.com/dreamer567/buildwithgemini-home-inventory-agent.git
+cd buildwithgemini-home-inventory-agent
+
+# 2. 登录您的个人 GCP 账号
+gcloud auth login
+gcloud auth application-default login
+
+# 3. 运行一键部署脚本 (传入您的 GCP 项目 ID)
+chmod +x deploy_to_my_gcp.sh
+./deploy_to_my_gcp.sh <YOUR_PERSONAL_GCP_PROJECT_ID> us-east1
+```
+
+脚本运行完毕后，将直接输出您个人 GCP 上的 **专属 Cloud Run 访问链接**！
+
+---
+
+### 🛠️ 方式 B：手动分步部署详细手册
+
+如果您想分步执行或加深对架构的理解，可以按以下步骤逐步配置：
+
+#### 1. 启用依赖的 Google Cloud API
+```bash
+gcloud config set project <YOUR_PROJECT_ID>
+
+gcloud services enable \
+  aiplatform.googleapis.com \
+  firestore.googleapis.com \
+  run.googleapis.com \
+  storage.googleapis.com \
+  cloudbuild.googleapis.com \
+  artifactregistry.googleapis.com
+```
+
+#### 2. 创建 Cloud Storage 媒体存储桶
+用于存放 Gemini 生图与 Omni 短视频资产：
+```bash
+export BUCKET_NAME="home-inventory-media-<YOUR_PROJECT_ID>"
+gcloud storage buckets create gs://${BUCKET_NAME} --location=us-east1
+# 开放图片与短视频的浏览器公网读取权限
+gcloud storage buckets add-iam-policy-binding gs://${BUCKET_NAME} \
+  --member="allUsers" \
+  --role="roles/storage.objectViewer"
+```
+
+#### 3. 创建 Firestore 数据库并录入初始数据
+```bash
+# 创建原生模式 (Native mode) Firestore 数据库
+gcloud firestore databases create --location=us-east1 --type=firestore-native
+
+# 安装依赖并灌入 3LDK 物品初始库
+pip install google-cloud-firestore
+GOOGLE_CLOUD_PROJECT="<YOUR_PROJECT_ID>" python scripts/seed_firestore.py
+```
+
+#### 4. 部署 Agent 到 Vertex AI Agent Engine
+```bash
+pip install google-agents-cli
+export GOOGLE_CLOUD_PROJECT="<YOUR_PROJECT_ID>"
+export HOME_INVENTORY_BUCKET="home-inventory-media-<YOUR_PROJECT_ID>"
+
+# 打包部署至云端 Reasoning Engine
+agents-cli deploy --agent-name home_inventory_agent --region us-east1
+```
+> 💡 部署成功后，终端将输出 Reasoning Engine 资源名称，格式为：
+> `projects/<PROJECT_NUMBER>/locations/us-east1/reasoningEngines/<RE_ID>`
+
+#### 5. 部署前端至 Google Cloud Run
+```bash
+gcloud run deploy home-inventory-frontend \
+  --source frontend \
+  --region us-east1 \
+  --allow-unauthenticated \
+  --set-env-vars AGENT_ENGINE_RESOURCE_NAME="projects/<PROJECT_NUMBER>/locations/us-east1/reasoningEngines/<RE_ID>",AGENT_DIRECTORY="app",GOOGLE_CLOUD_PROJECT="<YOUR_PROJECT_ID>",HOME_INVENTORY_BUCKET="home-inventory-media-<YOUR_PROJECT_ID>"
+```
+
+部署完成后，即可获得个人独享的 `https://home-inventory-frontend-xxxxxx.us-east1.run.app` 正式上线地址！
+
+---
+
+### 💰 个人账号费用与免费额度说明 (Cost & Free Quota)
+
+本项目采用**全 Serverless 无服务器架构**，无常驻虚机开销，极度节省成本：
+- **Google Cloud Run**：每月前 200 万次请求免费，闲置时自动缩容至 0 实例，不产生任何扣费。
+- **Cloud Firestore**：提供永久免费层（每天 50,000 次读取、20,000 次写入、1GB 存储），家庭日常完全在免费额度内。
+- **Cloud Storage**：前 5GB 标准存储免费。
+- **Gemini 3.6 Flash & 3.1 Flash-Lite**：采用极度亲民的 API 计费体系，百万 Token 仅数美分，日常交互体验每月花费几近于零。

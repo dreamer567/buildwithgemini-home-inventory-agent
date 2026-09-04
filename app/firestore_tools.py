@@ -4,16 +4,18 @@ Hardcodes the GCP project ID string 'qwiklabs-gcp-04-0e1a68c8e387' to prevent
 Agent Platform project-number resolution bugs.
 """
 
+import os
 from datetime import datetime, timezone
 from google.cloud import firestore
 
-PROJECT_ID = "qwiklabs-gcp-04-0e1a68c8e387"
+PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT", "qwiklabs-gcp-04-0e1a68c8e387")
 COLLECTION_NAME = "inventory_items"
 
 
 def get_firestore_client() -> firestore.Client:
-    """Return a Firestore client initialized with the hardcoded project ID."""
-    return firestore.Client(project=PROJECT_ID)
+    """Return a Firestore client initialized with the project ID."""
+    proj = os.environ.get("GOOGLE_CLOUD_PROJECT") or PROJECT_ID
+    return firestore.Client(project=proj)
 
 
 def query_inventory_from_firestore(

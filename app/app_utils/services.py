@@ -81,8 +81,9 @@ def get_memory_service():
     location = os.environ.get("GOOGLE_CLOUD_AGENT_ENGINE_LOCATION") or "us-east1"
     from google.adk.memory.vertex_ai_memory_bank_service import VertexAiMemoryBankService
 
+    project = os.environ.get("GOOGLE_CLOUD_PROJECT", "qwiklabs-gcp-04-0e1a68c8e387")
     return VertexAiMemoryBankService(
-        project="qwiklabs-gcp-04-0e1a68c8e387",
+        project=project,
         location=location,
         agent_engine_id=agent_engine_id,
     )

@@ -6,6 +6,7 @@ Saves the generated video as a session artifact and uploads directly to the publ
 import base64
 import logging
 import re
+import os
 from datetime import datetime, timezone
 from google import genai
 from google.adk.tools import ToolContext
@@ -14,8 +15,8 @@ from google.genai import types
 
 logger = logging.getLogger(__name__)
 
-PROJECT_ID = "qwiklabs-gcp-04-0e1a68c8e387"
-BUCKET_NAME = "home-inventory-assets-0e1a68c8e387"
+PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT", "qwiklabs-gcp-04-0e1a68c8e387")
+BUCKET_NAME = os.environ.get("HOME_INVENTORY_BUCKET", "home-inventory-assets-0e1a68c8e387")
 OMNI_MODEL = "gemini-omni-flash-preview"
 OMNI_REGION = "global"
 

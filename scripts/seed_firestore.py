@@ -6,11 +6,12 @@ NOTE: As required, the project ID is hardcoded as a string
 """
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from google.cloud import firestore
 
-PROJECT_ID = "qwiklabs-gcp-04-0e1a68c8e387"
+PROJECT_ID = os.environ.get("GOOGLE_CLOUD_PROJECT", "qwiklabs-gcp-04-0e1a68c8e387")
 COLLECTION_NAME = "inventory_items"
 
 
