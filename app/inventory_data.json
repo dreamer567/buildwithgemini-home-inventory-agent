@@ -350,5 +350,49 @@
     "expiry_date": "",
     "min_threshold": 2,
     "notes": "杜邦软毛刷头，一家三口定期每三个月轮换更换"
+  },
+  {
+    "id": "item_033",
+    "name": "全家当季常穿外套 (在用3件)",
+    "category": "日常穿戴与配件",
+    "location": "玄关与走廊 · 落地独立挂衣架",
+    "quantity": 3,
+    "unit": "件",
+    "expiry_date": "",
+    "min_threshold": 3,
+    "notes": "爸爸防风夹克、妈妈薄风衣、孩子连帽外套，进门脱换挂于玄关，阻断室外灰尘"
+  },
+  {
+    "id": "item_034",
+    "name": "每日坚果小包装 (15袋)",
+    "category": "食品蔬菜水果",
+    "location": "LDK客餐厨 · 厨房零食抽屉柜第一层 (成人健康区)",
+    "quantity": 15,
+    "unit": "袋",
+    "expiry_date": "2026-11-20",
+    "min_threshold": 5,
+    "notes": "无添加优质坚果，大人早餐补充与下午茶健康提神零食"
+  },
+  {
+    "id": "item_035",
+    "name": "原味高钙海苔 (儿童零食 8包)",
+    "category": "食品蔬菜水果",
+    "location": "LDK客餐厨 · 厨房零食抽屉柜第二层 (儿童零食区)",
+    "quantity": 8,
+    "unit": "包",
+    "expiry_date": "2026-10-15",
+    "min_threshold": 3,
+    "notes": "低钠高钙，孩子下午放学后健康加餐，密封干燥防潮"
+  },
+  {
+    "id": "item_036",
+    "name": "A4 打印复印纸 70g (500张整包)",
+    "category": "数码电子与配件",
+    "location": "东卧书房 · 独立多层辅抽屉柜底层 (规划区)",
+    "quantity": 1,
+    "unit": "包",
+    "expiry_date": "",
+    "min_threshold": 1,
+    "notes": "整包500张高白多功能打印纸，计划存放于书房新增抽屉柜底层，保障居家办公打印"
   }
 ]
