@@ -221,7 +221,7 @@ def generate_replenishment_shopping_list(urgent_only: bool = True) -> dict:
         categories.setdefault(cat, []).append(it)
 
     # Format Markdown checklist
-    markdown_lines = ["### 🛒 独居生活补货采购清单\n"]
+    markdown_lines = ["### 🛒 3LDK 家庭生活补货采购清单\n"]
     for cat, items in categories.items():
         markdown_lines.append(f"#### 🏷️ {cat}")
         for it in items:

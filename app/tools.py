@@ -381,5 +381,5 @@ def generate_shopping_plan() -> Dict[str, Any]:
         "urgent_replenishment": urgent_list,
         "routine_restock": normal_list,
         "perishable_consumption_or_replace": replace_list,
-        "tips_for_solo_living": "独居采购小贴士：绿叶蔬菜与生鲜水果按2-3天量购买，避免腐烂浪费；抽纸、洗洁精等耐储存日用品可适逢打折囤1-2件大包装。",
+        "tips_for_family_living": "三口之家采购小贴士：绿叶蔬菜与生鲜水果按全家2-3天消耗量适量采购，保证营养与新鲜；抽纸、洗洁精、洗衣液等高频消耗品可按家庭装备货囤入西卧储物间。",
     }

@@ -1,0 +1,13 @@
+.git/
+.venv/
+frontend/
+assets/
+*.webm
+*.gif
+*.png
+*.mp4
+tests/
+.video_tmp*/
+__pycache__/
+*.pyc
+node_modules/

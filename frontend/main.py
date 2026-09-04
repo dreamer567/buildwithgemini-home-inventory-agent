@@ -100,13 +100,37 @@ async def _json_errors(request: Request, exc: Exception):
 _contexts: dict[str, str] = {}
 
 
-def _extract_part_dict(part: Any) -> dict | None:
+def _extract_part_dict(part: Any) -> list[dict]:
+    results = []
     # Text part
     if getattr(part, "text", None):
-        return {"kind": "text", "text": part.text}
+        t = part.text
+        # Check if text contains embedded A2UI JSON payload
+        import re
+        pattern = r"<a2a_datapart_json>(.*?)</a2a_datapart_json>"
+        m = re.search(pattern, t, re.DOTALL)
+        if m:
+            try:
+                raw_json = m.group(1).strip()
+                parsed = json.loads(raw_json)
+                inner = parsed.get("data") if isinstance(parsed, dict) else parsed
+                if isinstance(inner, dict) and ("beginRendering" in inner or "surfaceUpdate" in inner):
+                    results.append({"kind": "a2ui", "data": inner})
+            except Exception:
+                pass
+            t = re.sub(pattern, "", t, flags=re.DOTALL).strip()
+        elif "application/json+a2ui" in t:
+            t = re.sub(r"^.*?application/json\+a2ui.*?</a2a_datapart_json>", "", t, flags=re.DOTALL).strip()
+            t = re.sub(r'\{"mimeType":\s*"application/json\+a2ui".*?\}\}\}\}', "", t, flags=re.DOTALL).strip()
+
+        if t:
+            results.append({"kind": "text", "text": t})
+        return results
+
     # URL / file link
     if getattr(part, "url", None):
-        return {"kind": "text", "text": part.url}
+        return [{"kind": "text", "text": part.url}]
+
     # A2UI / structured data part
     if hasattr(part, "HasField") and part.HasField("data"):
         data_dict = MessageToDict(part.data)
@@ -115,9 +139,9 @@ def _extract_part_dict(part: Any) -> dict | None:
             if isinstance(inner, dict) and (
                 "beginRendering" in inner or "surfaceUpdate" in inner
             ):
-                return {"kind": "a2ui", "data": inner}
-        return {"kind": "a2ui", "data": data_dict}
-    return None
+                return [{"kind": "a2ui", "data": inner}]
+        return [{"kind": "a2ui", "data": data_dict}]
+    return []
 
 
 @app.post("/chat")
@@ -174,24 +198,18 @@ async def chat(req: Request):
                     if chunk.artifact_update.context_id:
                         res_ctx = chunk.artifact_update.context_id
                     for p in chunk.artifact_update.artifact.parts:
-                        extracted = _extract_part_dict(p)
-                        if extracted:
-                            res_parts.append(extracted)
+                        res_parts.extend(_extract_part_dict(p))
                 elif chunk.HasField("task"):
                     if chunk.task.context_id:
                         res_ctx = chunk.task.context_id
                     for art in chunk.task.artifacts:
                         for p in art.parts:
-                            extracted = _extract_part_dict(p)
-                            if extracted:
-                                res_parts.append(extracted)
+                            res_parts.extend(_extract_part_dict(p))
                 elif chunk.HasField("message"):
                     if chunk.message.context_id:
                         res_ctx = chunk.message.context_id
                     for p in chunk.message.parts:
-                        extracted = _extract_part_dict(p)
-                        if extracted:
-                            res_parts.append(extracted)
+                        res_parts.extend(_extract_part_dict(p))
             return res_parts, res_ctx
 
         context_id = _contexts.get(user_id, "")

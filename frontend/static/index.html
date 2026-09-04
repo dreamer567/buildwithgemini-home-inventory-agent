@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="page-title">3LDK 独居物品收纳与生活采购智能管家</title>
+<title id="page-title">3LDK 三口之家物品收纳与生活采购智能管家</title>
 <!-- Google Fonts: Inter & Material Symbols Outlined -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -796,7 +796,7 @@
     </div>
     <div>
       <div class="brand-title">
-        <span id="ui-brand-title">3LDK 独居物品收纳与生活采购智能管家</span>
+        <span id="ui-brand-title">3LDK 三口之家物品收纳与生活采购智能管家</span>
         <span class="badge-pill" id="ui-badge-pill">Gemini 3.6 Flash</span>
       </div>
       <div class="brand-subtitle" id="ui-brand-subtitle">空间鸟瞰图 · 视觉小票识别 · 交互待办采购 · 食材保鲜预警</div>
@@ -886,7 +886,7 @@
             <span>· 刚刚</span>
           </div>
           <div class="bubble" id="welcome-bubble">
-你好！我是你的 3LDK 独居收纳与采购智能管家。
+你好！我是你的 3LDK 三口之家收纳与生活采购智能管家。
 
 ✨ **进阶功能已全面就绪**：
 1. **3LDK 空间鸟瞰图**：点击左侧房间卡片，一键检索对应区域收纳。
@@ -943,8 +943,8 @@ const sessionId = (function() {
 /* --- Trilingual Dictionary --- */
 const I18N = {
   zh: {
-    pageTitle: "3LDK 独居物品收纳与生活采购智能管家",
-    brandTitle: "3LDK 独居物品收纳与生活采购智能管家",
+    pageTitle: "3LDK 三口之家物品收纳与生活采购智能管家",
+    brandTitle: "3LDK 三口之家物品收纳与生活采购智能管家",
     badgePill: "Gemini 3.6 Flash",
     brandSubtitle: "空间鸟瞰图 · 视觉小票识别 · 交互待办采购 · 食材保鲜预警",
     toggleMap: "3LDK 户型图",
@@ -956,23 +956,23 @@ const I18N = {
       { name: "🛋️ LDK 客餐厨 (Living & Kitchen)", badge: "核心生活区", desc: "双门智能冰箱、调料收纳柜、实木大餐桌", items: "📍 万能味醂、鲜牛奶、即食酱料、日用杂物", query: "查看【LDK 客餐厨】收纳的所有物品与保鲜状态" },
       { name: "🖥️ 东卧·独立书房 (East Study)", badge: "工作学习区", desc: "1米独立书桌、桌下收纳小抽屉、极简笔筒", items: "📍 办公专用剪刀、数码配件、手账文具", query: "查看【东卧·独立书房】收纳的所有办公文具与物品" },
       { name: "🗄️ 中卧·起居主卧 (Master Bedroom)", badge: "就寝收纳区", desc: "传统巨大押入壁橱 (Oshiire)、床头收纳柜", items: "📍 换季厚被褥、旅行箱、无绳吸尘器", query: "查看【中卧·起居主卧】押入壁橱中收纳的所有物品" },
-      { name: "📦 西卧·储物间 (West Storage)", badge: "大宗备货区", desc: "四层金属货架、半透明收纳大箱", items: "📍 整箱原木抽纸、大瓶备用洗衣液、大米", query: "查看【西卧·闲置储物间】囤积的所有大宗物资与日用品" }
+      { name: "📦 西卧·儿童房与储物区 (West Room)", badge: "全家备货区", desc: "四层金属货架、半透明收纳大箱、全家物资", items: "📍 整箱原木抽纸、大瓶备用洗衣液、大米", query: "查看【西卧·储物备货区】囤积的所有大宗物资与日用品" }
     ],
-    greeting: "你好！我是你的 3LDK 独居收纳与采购智能管家。\n\n✨ 支持功能：\n1. 3LDK 空间鸟瞰图交互\n2. 拍照/小票视觉智能录入\n3. 交互式采购待办清单核销\n4. 食材保鲜彩色进度条\n5. 中英日三语无缝支持！",
+    greeting: "你好！我是你的 3LDK 三口之家收纳与生活采购智能管家。\n\n✨ 支持功能：\n1. 3LDK 空间鸟瞰图交互\n2. 拍照/小票视觉智能录入\n3. 交互式采购待办清单核销\n4. 食材保鲜彩色进度条\n5. 中英日三语无缝支持！",
     prompts: [
       { icon: "content_cut", label: "剪刀放在哪里？", text: "剪刀放在哪里？" },
-      { icon: "shopping_cart_checkout", label: "检查库存并生成独居采购清单", text: "帮我检查冰箱和储物间，生成一份紧急程度明确的独居采购清单" },
+      { icon: "shopping_cart_checkout", label: "检查库存并生成家庭采购清单", text: "帮我检查冰箱和储物间，生成一份紧急程度明确的家庭生活采购清单" },
       { icon: "photo_camera", label: "生成万能味醂视觉照片", text: "为厨房的万能味醂生成一张精美的物品视觉照片" }
     ],
     inputPlaceholder: "输入问题或需求，或拍照上传购物小票/实物…",
     agentName: "智能管家",
-    userName: "独居主人",
+    userName: "家庭主人",
     checkInBtn: "核销入库",
     previewText: "图片已就绪 (实物/小票识别)"
   },
   ja: {
-    pageTitle: "3LDK 独居収納＆生活購買スマート執事",
-    brandTitle: "3LDK 独居収納＆生活購買スマート執事",
+    pageTitle: "3LDK 3人家族の収納＆生活購買スマート執事",
+    brandTitle: "3LDK 3人家族の収納＆生活購買スマート執事",
     badgePill: "Gemini 3.6 Flash",
     brandSubtitle: "3LDK間取り図 · レシート画像認識 · 買い物チェックリスト · 賞味期限アラート",
     toggleMap: "3LDK 間取り",
@@ -984,23 +984,23 @@ const I18N = {
       { name: "🛋️ LDK・オープンキッチン", badge: "メイン居住区", desc: "大型冷蔵庫、調味料ラック、ダイニングテーブル", items: "📍 本みりん、牛乳、調味料、日用雑貨", query: "【LDK・キッチン】の食材と賞味期限の状態を教えて" },
       { name: "🖥️ 東寝室・書斎ワークスペース", badge: "作業・学習区", desc: "1m独立デスク、デスク下引き出し、ペン立て", items: "📍 文具ハサミ、ガジェット類、文房具", query: "【東寝室・書斎】にある文房具や備品を教えて" },
       { name: "🗄️ 主寝室・押入れクローゼット", badge: "就寝・収納区", desc: "和風大型押入れ、ベッドサイド収納", items: "📍 季節外れの羽毛布団、スーツケース、掃除機", query: "【主寝室・押入れ】にしまってある荷物を教えて" },
-      { name: "📦 西部屋・ストック倉庫", badge: "大容量備蓄区", desc: "4段メタルラック、半透明収納ボックス", items: "📍 ティッシュペーパー箱買い、洗濯洗剤、お米", query: "【西部屋・ストック倉庫】にある日用品の備蓄在庫を教えて" }
+      { name: "📦 西部屋・子供部屋＆ストック倉庫", badge: "家族の備蓄区", desc: "4段メタルラック、半透明収納ボックス", items: "📍 ティッシュペーパー箱買い、洗濯洗剤、お米", query: "【西部屋・ストック倉庫】にある日用品の備蓄在庫を教えて" }
     ],
-    greeting: "こんにちは！あなたの 3LDK 独居収納＆生活購買スマート執事です。\n\n✨ 主な機能：\n1. 3LDK インタラクティブ間取り図\n2. レシート・商品のカメラ画像認識\n3. 買い物チェックリスト＆在庫自動更新\n4. 賞味期限ビジュアルプログレスバー\n5. 日本語・英語・中国語の完全マルチリンガル対応！",
+    greeting: "こんにちは！あなたの 3LDK 3人家族の収納＆生活購買スマート執事です。\n\n✨ 主な機能：\n1. 3LDK インタラクティブ間取り図\n2. レシート・商品のカメラ画像認識\n3. 買い物チェックリスト＆在庫自動更新\n4. 賞味期限ビジュアルプログレスバー\n5. 日本語・英語・中国語の完全マルチリンガル対応！",
     prompts: [
       { icon: "content_cut", label: "ハサミはどこにありますか？", text: "ハサミはどこに置いてありますか？" },
-      { icon: "shopping_cart_checkout", label: "在庫を確認して買い物リストを作成", text: "冷蔵庫と備蓄を確認して、優先度の高い独居用買い物リストを作成してください" },
+      { icon: "shopping_cart_checkout", label: "在庫を確認して買い物リストを作成", text: "冷蔵庫と備蓄を確認して、優先度の高い家庭用買い物リストを作成してください" },
       { icon: "photo_camera", label: "本みりんのビジュアル写真を生成", text: "キッチンにある本みりんの素敵な写真を生成してください" }
     ],
     inputPlaceholder: "質問を入力、またはレシート・商品の写真を撮影…",
     agentName: "スマート執事",
-    userName: "部屋の主",
+    userName: "家族の主",
     checkInBtn: "在庫反映",
     previewText: "画像準備完了 (商品/レシート認識)"
   },
   en: {
-    pageTitle: "3LDK Solo Living & Home Inventory Butler",
-    brandTitle: "3LDK Solo Living & Inventory Butler",
+    pageTitle: "3LDK Family Home Inventory & Shopping Butler",
+    brandTitle: "3LDK Family Home & Inventory Butler",
     badgePill: "Gemini 3.6 Flash",
     brandSubtitle: "Interactive Floorplan · Receipt Vision Intake · Smart Checklist · Freshness Tracker",
     toggleMap: "3LDK Floorplan",
@@ -1012,17 +1012,17 @@ const I18N = {
       { name: "🛋️ LDK & Open Kitchen", badge: "Living Area", desc: "Smart fridge, pantry spice rack, dining table", items: "📍 Mirin, fresh milk, daily pantry essentials", query: "Show all items and freshness status in LDK & Kitchen" },
       { name: "🖥️ East Bedroom (Home Office)", badge: "Workzone", desc: "1m desk, under-desk organizer, pen cup", items: "📍 Desk scissors, tech gadgets, stationery", query: "Show all stationery and equipment in the East Study" },
       { name: "🗄️ Master Bedroom (Oshiire Closet)", badge: "Sleep & Closet", desc: "Traditional Oshiire closet, bedside storage", items: "📍 Seasonal bedding, suitcases, cordless vacuum", query: "Show all items stored in Master Bedroom Oshiire closet" },
-      { name: "📦 West Bedroom (Bulk Storage)", badge: "Stockroom", desc: "4-tier metal shelves, clear storage bins", items: "📍 Boxed facial tissue, laundry detergent, rice", query: "Show all bulk backup supplies in West Storage" }
+      { name: "📦 West Bedroom (Kids & Storage)", badge: "Stockroom", desc: "4-tier metal shelves, clear storage bins", items: "📍 Boxed facial tissue, laundry detergent, rice", query: "Show all bulk backup supplies in West Storage" }
     ],
-    greeting: "Hello! I am your 3LDK Solo Living Inventory & Procurement Butler.\n\n✨ Features ready:\n1. 3LDK Interactive Floorplan Explorer\n2. Multimodal Receipt & Item Vision Intake\n3. Interactive Shopping Checklist with Instant Stock Sync\n4. Food Freshness & Expiry Visual Progress Indicators\n5. Seamless Trilingual Support (Japanese, English, and Chinese)!",
+    greeting: "Hello! I am your 3LDK Family Home Inventory & Procurement Butler.\n\n✨ Features ready:\n1. 3LDK Interactive Floorplan Explorer\n2. Multimodal Receipt & Item Vision Intake\n3. Interactive Shopping Checklist with Instant Stock Sync\n4. Food Freshness & Expiry Visual Progress Indicators\n5. Seamless Trilingual Support (Japanese, English, and Chinese)!",
     prompts: [
       { icon: "content_cut", label: "Where are the scissors?", text: "Where are the scissors located?" },
-      { icon: "shopping_cart_checkout", label: "Generate shopping replenishment list", text: "Check my fridge and storage to generate a prioritized shopping list" },
+      { icon: "shopping_cart_checkout", label: "Generate family shopping list", text: "Check fridge and storage to generate a prioritized family shopping list" },
       { icon: "photo_camera", label: "Generate photo of Mirin", text: "Generate an aesthetic visual photo of Mirin in the kitchen" }
     ],
     inputPlaceholder: "Ask a question, or take a picture of receipts/items…",
     agentName: "Butler",
-    userName: "Resident",
+    userName: "Family Resident",
     checkInBtn: "Sync Stock",
     previewText: "Image ready for Gemini Vision Intake"
   }
@@ -1410,13 +1410,18 @@ function renderReply(b, parts) {
   b.innerHTML = "";
   const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => {
     let t = p.text || "";
+    // Clean any leaked datapart JSON
+    t = t.replace(/<a2a_datapart_json>[\s\S]*?<\/a2a_datapart_json>/gi, "");
+    t = t.replace(/^[\s\S]*?application\/json\+a2ui[\s\S]*?<\/a2a_datapart_json>/gi, "");
+    t = t.replace(/\{"mimeType":\s*"application\/json\+a2ui"[\s\S]*?\}\}\}\}/gi, "");
+    t = t.trim();
     if (t.toLowerCase().includes("couldn't render that view")) {
       if (currentLang === "ja") return "💡 空間のアイテムを整理中ですが、もう一度ご質問いただければ詳細をご案内いたします。";
       if (currentLang === "en") return "Organizing the spatial items... please ask again for details.";
       return "正在整理空间收纳，请重新尝试提问。";
     }
     return t;
-  });
+  }).filter(t => t.length > 0);
   const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
 
   const textStr = texts.join("\n").trim();

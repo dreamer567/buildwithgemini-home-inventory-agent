@@ -1,4 +1,4 @@
-# 🏠 3LDK 独居物品收纳与生活采购智能管家 (Home Inventory Butler)
+# 🏠 3LDK 三口之家物品收纳与生活采购智能管家 (Home Inventory Butler)
 
 > 基于 Google Gemini 3.6 与 Vertex AI Agent Engine 构建的现代化 3LDK 空间收纳、食材保鲜与生活采购全能管家 Agent。
 
@@ -20,19 +20,19 @@
   - 🇯🇵 [日本語版ダイレクトリンク (?lang=ja)](https://home-inventory-frontend-885543773610.us-east1.run.app/?lang=ja)
   - 🇺🇸 [English Direct Link (?lang=en)](https://home-inventory-frontend-885543773610.us-east1.run.app/?lang=en)
 - 💻 **GitHub 开源仓库**: [https://github.com/dreamer567/buildwithgemini-home-inventory-agent](https://github.com/dreamer567/buildwithgemini-home-inventory-agent)
-- 🎁 **Build With Gemini 活动项目提交直达**: [Swag / Gallery 预填提交表单](https://docs.google.com/forms/d/e/1FAIpQLSfvbIUMrHLf2iUYVgQkr981unQwuLdigLB7yJp3VdtYH85Dzw/viewform?usp=pp_url&entry.896374137=https%3A%2F%2Fgithub.com%2Fdreamer567%2Fbuildwithgemini-home-inventory-agent&entry.339694639=home-inventory-agent&entry.82550013=A%20conversational%20agent%20that%20helps%20solo%20dwellers%20manage%20household%20assets%2C%20grocery%20freshness%2C%20and%20shopping%20replenishment%20with%20a%20catalog%20of%203LDK%20home%20items%20and%20pantry%20stock.)
+- 🎁 **Build With Gemini 活动项目提交直达**: [Swag / Gallery 预填提交表单](https://docs.google.com/forms/d/e/1FAIpQLSfvbIUMrHLf2iUYVgQkr981unQwuLdigLB7yJp3VdtYH85Dzw/viewform?usp=pp_url&entry.896374137=https%3A%2F%2Fgithub.com%2Fdreamer567%2Fbuildwithgemini-home-inventory-agent&entry.339694639=home-inventory-agent&entry.82550013=A%20conversational%20agent%20that%20helps%20a%20family%20of%20three%20manage%20household%20assets%2C%20grocery%20freshness%2C%20and%20shopping%20replenishment%20with%20a%20catalog%20of%203LDK%20home%20items%20and%20pantry%20stock.)
 
 ---
 
 ## 🌟 项目简介 (Overview)
 
 
-对于独居青年而言，3LDK（三室一厅）的大空间往往伴随着“**物品放哪找不着**”、“**同一件小工具重复购买**”、“**冰箱食材悄悄过期**”以及“**去趟超市不知道该补什么**”的痛点。
+对于三口之家而言，3LDK（三室一厅）的家庭空间往往伴随着“**家庭成员物品放哪找不着**”、“**同一件生活工具重复购买**”、“**冰箱食材悄悄过期**”以及“**去趟超市不知道全家该补什么**”的痛点。
 
-**3LDK 独居物品收纳与生活采购智能管家** 专为解决这一系列独居居住痛点打造：
-- **空间认知与物品多点定位**：深入认知 3LDK 的具体家具与功能分区（客厅大餐桌、东卧 1 米独立书桌、中卧巨大押入壁橱、西卧闲置储物间、玄关收纳挂钩与鞋柜），精准记录并指引剪刀、印章、遥控器等多点放置物品。
-- **食材保鲜与临期监控**：实时追踪冰箱与常温食材存储周期，提供科学储藏方案，防止食材变质浪费。
-- **独居专属智能补货**：一键审计库存与过期状态，自动计算紧急度，生成清晰条理的 Markdown 采购清单。
+**3LDK 三口之家物品收纳与生活采购智能管家** 专为解决家庭居住痛点打造：
+- **空间认知与物品多点定位**：深入认知 3LDK 的具体家具与功能分区（客厅大餐桌、东卧 1 米独立书桌、中卧巨大押入壁橱、西卧儿童房与家庭储物区、玄关收纳挂钩与鞋柜），精准记录并指引剪刀、印章、遥控器等多点放置物品。
+- **食材保鲜与临期监控**：实时追踪冰箱与常温食材存储周期，提供科学储藏方案，防止家庭食材变质浪费。
+- **家庭专属智能补货**：一键审计库存与过期状态，按三口之家消耗速率自动计算紧急度，生成清晰条理的 Markdown 采购清单。
 - **多模态生图与视频展示**：利用 Gemini 视觉模型即时生成空间收纳布局示意图与物品动态短视频。
 
 ---
@@ -42,7 +42,7 @@
 1. **精确物品与空间检索 (`search_item` / `query_inventory_from_firestore`)**
    - 告别盲目翻找，秒级定位物品位于哪个房间、哪件家具、第几层抽屉，并汇报当前库存余量。
 2. **自动化采购清单生成 (`generate_replenishment_shopping_list`)**
-   - 区分【🚨 紧急补充】与【📦 常规备货】，根据独居单人消耗速率智能核算推荐购买量与预估单价。
+   - 区分【🚨 紧急补充】与【📦 常规备货】，根据三口之家日常消耗速率智能核算推荐购买量与预估单价。
 3. **科学储藏建议与变质预警 (`get_storage_advice` / `check_inventory_alerts`)**
    - 针对不同食材（根茎类、绿叶菜、调味品、乳制品）给出精准温湿度分区建议，区分在用量与西卧大宗囤货。
 4. **视觉照片与动态短视频双重生成 (`generate_item_image` / `generate_item_video`)**
