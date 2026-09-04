@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3LDK 独居物品收纳与生活采购智能管家</title>
+<title id="page-title">3LDK 独居物品收纳与生活采购智能管家</title>
 <!-- Google Fonts: Inter & Material Symbols Outlined -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,15 +14,16 @@
     --accent-dark: #1b4332;
     --accent-light: #52b788;
     --accent-subtle: #d8f3dc;
-    --accent-tint: #eaf8ee;
-    --bg: #f5f7f6;
+    --accent-tint: #f0fdf4;
+    --bg: #f3f5f4;
     --surface: #ffffff;
     --border: #e2e8f0;
     --text-main: #1f2937;
     --text-muted: #64748b;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 8px 24px rgba(27, 67, 50, 0.08);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 24px rgba(27, 67, 50, 0.09);
+    --sidebar-w: 320px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,16 +37,16 @@
     overflow: hidden;
   }
 
-  /* --- Header --- */
+  /* --- Top Header --- */
   header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 0.85rem 1.5rem;
+    padding: 0.75rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: var(--shadow-sm);
-    z-index: 10;
+    z-index: 20;
   }
   .brand-group {
     display: flex;
@@ -53,9 +54,9 @@
     gap: 0.75rem;
   }
   .brand-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
     background: linear-gradient(135deg, var(--accent), var(--accent-dark));
     color: #fff;
     display: flex;
@@ -82,7 +83,6 @@
     font-weight: 600;
     padding: 2px 8px;
     border-radius: 20px;
-    letter-spacing: 0.02em;
   }
   .brand-subtitle {
     font-size: 0.8rem;
@@ -92,8 +92,34 @@
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.65rem;
   }
+
+  /* Language Switcher */
+  .lang-select-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2px 6px;
+  }
+  .lang-select-wrapper .material-symbols-outlined {
+    font-size: 16px;
+    color: var(--accent-dark);
+    margin-right: 2px;
+  }
+  .lang-select {
+    border: none;
+    background: transparent;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-main);
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
   .status-indicator {
     display: flex;
     align-items: center;
@@ -119,11 +145,140 @@
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
   }
 
-  /* --- Chat Dialogue Area --- */
+  .toggle-sidebar-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 5px 9px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  .toggle-sidebar-btn:hover {
+    background: var(--bg);
+    border-color: var(--accent-light);
+  }
+
+  /* --- Main Container --- */
+  .main-wrapper {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* --- 3LDK Floorplan Sidebar --- */
+  .floorplan-sidebar {
+    width: var(--sidebar-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    transition: transform 0.3s ease, margin-left 0.3s ease;
+    flex-shrink: 0;
+    z-index: 15;
+  }
+  .floorplan-sidebar.collapsed {
+    margin-left: calc(-1 * var(--sidebar-w));
+  }
+  .sidebar-header {
+    padding: 1rem 1.1rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-header h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .sidebar-header p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  .floorplan-map {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .room-card {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem 0.85rem;
+    background: #fafbfa;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .room-card:hover {
+    border-color: var(--accent-light);
+    background: var(--accent-tint);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  .room-card.active {
+    border-color: var(--accent);
+    background: #eaf8ee;
+    box-shadow: 0 0 0 2px rgba(45, 106, 79, 0.2);
+  }
+  .room-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .room-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .room-badge {
+    font-size: 0.7rem;
+    background: rgba(45, 106, 79, 0.1);
+    color: var(--accent-dark);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .room-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .room-highlight-items {
+    font-size: 0.72rem;
+    color: var(--accent-dark);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  /* --- Chat Area --- */
+  .chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
   #log {
     flex: 1;
     overflow-y: auto;
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 1.25rem;
     max-width: 860px;
     width: 100%;
     margin: 0 auto;
@@ -145,9 +300,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .dialogue-turn.user {
-    flex-direction: row-reverse;
-  }
+  .dialogue-turn.user { flex-direction: row-reverse; }
 
   .avatar {
     width: 36px;
@@ -176,9 +329,7 @@
     flex-direction: column;
     gap: 0.3rem;
   }
-  .dialogue-turn.user .dialogue-content {
-    align-items: flex-end;
-  }
+  .dialogue-turn.user .dialogue-content { align-items: flex-end; }
 
   .sender-info {
     font-size: 0.72rem;
@@ -224,7 +375,126 @@
     max-width: 100%;
   }
 
-  /* --- A2UI Component Refinements --- */
+  /* --- Interactive Checklist --- */
+  .interactive-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.6rem 0;
+    width: 100%;
+  }
+  .checklist-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.6rem 0.85rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  .checklist-card:hover {
+    border-color: var(--accent);
+    background: #fafdfb;
+    transform: translateX(2px);
+  }
+  .checklist-card.checked {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    opacity: 0.75;
+  }
+  .checklist-card.checked .check-label {
+    text-decoration: line-through;
+    color: #94a3b8;
+  }
+  .check-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .check-box-custom {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    background: #fff;
+  }
+  .checklist-card.checked .check-box-custom {
+    background: var(--accent);
+  }
+  .checklist-card.checked .check-box-custom::after {
+    content: "✓";
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .check-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+  }
+  .sync-stock-btn {
+    font-size: 0.75rem;
+    background: var(--accent-subtle);
+    color: var(--accent-dark);
+    border: none;
+    padding: 3px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.15s;
+  }
+  .sync-stock-btn:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* --- Expiry Progress Bar --- */
+  .expiry-widget {
+    background: #fafbfc;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .expiry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+  }
+  .expiry-title { font-weight: 600; color: var(--text-main); }
+  .expiry-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+  .expiry-badge.safe { background: #dcfce7; color: #15803d; }
+  .expiry-badge.warning { background: #fef3c7; color: #b45309; }
+  .expiry-badge.danger { background: #fee2e2; color: #b91c1c; }
+  .progress-track {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  /* --- A2UI Styles --- */
   .a2card {
     border: 1px solid var(--border);
     border-radius: 14px;
@@ -234,9 +504,7 @@
     max-width: 100%;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .a2card:hover {
-    box-shadow: var(--shadow-lg);
-  }
+  .a2card:hover { box-shadow: var(--shadow-lg); }
   .a2card + .a2card, .a2col > .a2card { margin-top: 0.75rem; }
   .a2col { display: flex; flex-direction: column; gap: 0.5rem; }
   .a2row { display: flex; flex-direction: row; gap: 0.65rem; align-items: center; flex-wrap: wrap; }
@@ -250,20 +518,19 @@
   .a2divider { border: none; border-top: 1px solid var(--border); margin: 0.5rem 0; width: 100%; }
   .a2img { max-width: 100%; border-radius: 10px; display: block; margin-top: 0.4rem; box-shadow: var(--shadow-sm); }
   .media-video { width: 100%; max-height: 360px; border-radius: 10px; margin-top: 0.5rem; background: #000; box-shadow: var(--shadow-md); outline: none; }
-  .material-symbols-outlined {
-    font-family: 'Material Symbols Outlined';
-    font-size: 1.25rem;
-    line-height: 1;
-    vertical-align: middle;
-    color: var(--accent);
-  }
 
-  /* --- Quick Suggestion Prompts --- */
+  /* --- Footer & Input --- */
+  .chat-footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 0.65rem 1rem 0.9rem;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+  }
   .quick-prompts-wrapper {
     max-width: 860px;
     width: 100%;
     margin: 0 auto;
-    padding: 0.4rem 1rem 0.2rem;
+    padding: 0.2rem 0 0.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -277,7 +544,7 @@
     color: var(--accent-dark);
     font-size: 0.82rem;
     font-weight: 500;
-    padding: 0.45rem 0.85rem;
+    padding: 0.4rem 0.8rem;
     border-radius: 20px;
     white-space: nowrap;
     cursor: pointer;
@@ -292,30 +559,72 @@
     border-color: var(--accent-light);
     color: var(--accent-dark);
     transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(45, 106, 79, 0.15);
-  }
-  .prompt-pill:active {
-    transform: translateY(0);
   }
 
-  /* --- Footer & Input Form --- */
-  .chat-footer {
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    padding: 0.75rem 1rem 1rem;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
-  }
   .input-form-container {
     max-width: 860px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
   }
+
+  /* Image preview thumbnail */
+  .image-preview-bar {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    background: #eaf8ee;
+    border: 1px solid var(--accent-subtle);
+    padding: 6px 12px;
+    border-radius: 12px;
+    width: fit-content;
+  }
+  .image-preview-bar.active { display: flex; }
+  .image-preview-thumb {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+  .image-preview-text { font-size: 0.78rem; color: var(--accent-dark); font-weight: 500; }
+  .image-clear-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+  }
+
   form {
     display: flex;
-    gap: 0.6rem;
+    gap: 0.5rem;
     position: relative;
     align-items: center;
   }
-  input {
+
+  .upload-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .upload-btn:hover {
+    background: var(--accent-tint);
+    border-color: var(--accent);
+  }
+
+  input[type="text"] {
     flex: 1;
     padding: 0.85rem 1.15rem;
     border: 1.5px solid var(--border);
@@ -326,14 +635,12 @@
     color: var(--text-main);
     transition: border-color 0.2s, box-shadow 0.2s;
   }
-  input:focus {
+  input[type="text"]:focus {
     border-color: var(--accent);
     background: #fff;
     box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.12);
   }
-  input::placeholder {
-    color: #94a3b8;
-  }
+
   .send-btn {
     width: 44px;
     height: 44px;
@@ -352,17 +659,9 @@
   .send-btn:hover {
     transform: scale(1.05);
     background: var(--accent-dark);
-    box-shadow: 0 4px 12px rgba(27, 67, 50, 0.4);
   }
-  .send-btn:active {
-    transform: scale(0.96);
-  }
-  .send-btn .material-symbols-outlined {
-    color: #fff;
-    font-size: 20px;
-  }
+  .send-btn:active { transform: scale(0.96); }
 
-  /* --- Typing Wave Indicator --- */
   .typing-indicator {
     display: inline-flex;
     align-items: center;
@@ -392,72 +691,303 @@
     </div>
     <div>
       <div class="brand-title">
-        3LDK 独居物品收纳与生活采购智能管家
-        <span class="badge-pill">Gemini 3.6 Flash</span>
+        <span id="ui-brand-title">3LDK 独居物品收纳与生活采购智能管家</span>
+        <span class="badge-pill" id="ui-badge-pill">Gemini 3.6 Flash</span>
       </div>
-      <div class="brand-subtitle">3LDK 空间收纳 · 食材鲜度追踪 · 智能采购补货 · 视觉照片与短视频</div>
+      <div class="brand-subtitle" id="ui-brand-subtitle">空间鸟瞰图 · 视觉小票识别 · 交互待办采购 · 食材保鲜预警</div>
     </div>
   </div>
   <div class="header-actions">
+    <!-- Trilingual Language Switcher -->
+    <div class="lang-select-wrapper">
+      <span class="material-symbols-outlined">translate</span>
+      <select class="lang-select" id="lang-select" aria-label="Select Language">
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="en">🇺🇸 English</option>
+      </select>
+    </div>
+
+    <button type="button" class="toggle-sidebar-btn" id="toggle-sidebar">
+      <span class="material-symbols-outlined" style="font-size:18px;">map</span>
+      <span id="ui-toggle-map">3LDK 户型图</span>
+    </button>
     <div class="status-indicator">
       <span class="status-dot"></span>
-      <span>Agent Runtime 联机</span>
+      <span id="ui-status-online">Agent Runtime 在线</span>
     </div>
   </div>
 </header>
 
-<div id="log">
-  <!-- Initial greeting -->
-  <div class="dialogue-turn agent">
-    <div class="avatar">
-      <span class="material-symbols-outlined">home_pin</span>
+<div class="main-wrapper">
+  <!-- 3LDK Interactive Floorplan Sidebar -->
+  <aside class="floorplan-sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>
+        <span class="material-symbols-outlined" style="font-size:20px;">floor_lamp</span>
+        <span id="ui-sidebar-title">3LDK 空间收纳鸟瞰图</span>
+      </h3>
+      <p id="ui-sidebar-subtitle">点击任意空间，立即查询该区域的所有收纳物品与库存</p>
     </div>
-    <div class="dialogue-content">
-      <div class="sender-info">
-        <span>智能管家</span>
-        <span>· 刚刚</span>
-      </div>
-      <div class="bubble">
-你好！我是你的 3LDK 独居收纳与采购智能管家。我对你的三居室空间（客厅大餐桌、东卧独立书桌、中卧押入壁橱、西卧闲置储物间）与生活收纳习惯了如指掌。
+    <div class="floorplan-map" id="floorplan-map-container">
+      <!-- Injected dynamically by updateLanguage() -->
+    </div>
+  </aside>
 
-你可以直接询问我物品位置、让我检查过期与库存预警、一键生成采购清单，或是生成物品的真实视觉照片与演示短视频！
+  <!-- Main Chat Flow -->
+  <main class="chat-container">
+    <div id="log">
+      <!-- Welcome message -->
+      <div class="dialogue-turn agent">
+        <div class="avatar">
+          <span class="material-symbols-outlined">home_pin</span>
+        </div>
+        <div class="dialogue-content">
+          <div class="sender-info">
+            <span class="agent-sender-label">智能管家</span>
+            <span>· 刚刚</span>
+          </div>
+          <div class="bubble" id="welcome-bubble">
+你好！我是你的 3LDK 独居收纳与采购智能管家。
+
+✨ **进阶功能已全面就绪**：
+1. **3LDK 空间鸟瞰图**：点击左侧房间卡片，一键检索对应区域收纳。
+2. **多模态视觉录入**：点击下方 📷 图标上传实物或小票照片，我将自动识别并为你归置入库。
+3. **交互式采购待办**：生成采购清单后，可在清单中直接点击打勾核销！
+4. **食品保鲜进度条**：直观查看冷藏食材的剩余保鲜周期与预警。
+5. **中英日全语言支持**：可在右上角随时切换语言！
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="chat-footer">
-  <!-- 3 Clickable Example Prompts -->
-  <div class="quick-prompts-wrapper" id="quick-prompts">
-    <button type="button" class="prompt-pill" data-prompt="剪刀放在哪里？">
-      <span class="material-symbols-outlined" style="font-size:16px;">content_cut</span>
-      剪刀放在哪里？
-    </button>
-    <button type="button" class="prompt-pill" data-prompt="帮我检查冰箱和储物间，生成一份紧急程度明确的独居采购清单">
-      <span class="material-symbols-outlined" style="font-size:16px;">shopping_cart_checkout</span>
-      检查库存并生成独居采购清单
-    </button>
-    <button type="button" class="prompt-pill" data-prompt="为厨房的万能味醂生成一张精美的物品视觉照片">
-      <span class="material-symbols-outlined" style="font-size:16px;">photo_camera</span>
-      生成万能味醂视觉照片
-    </button>
-  </div>
+    <div class="chat-footer">
+      <!-- Quick Suggestion Prompts -->
+      <div class="quick-prompts-wrapper" id="quick-prompts">
+        <!-- Injected dynamically by updateLanguage() -->
+      </div>
 
-  <div class="input-form-container">
-    <form id="form">
-      <input id="input" placeholder="输入问题或需求，例如：“玄关鞋柜放了什么？”、“生成采购清单”…" autocomplete="off" autofocus>
-      <button class="send-btn" type="submit" aria-label="发送消息">
-        <span class="material-symbols-outlined">send</span>
-      </button>
-    </form>
-  </div>
+      <div class="input-form-container">
+        <!-- Image preview chip -->
+        <div class="image-preview-bar" id="image-preview-bar">
+          <img class="image-preview-thumb" id="preview-thumb" src="" alt="预览">
+          <span class="image-preview-text" id="preview-text">图片已就绪 (实物/小票识别)</span>
+          <button type="button" class="image-clear-btn" id="clear-image-btn" title="清除图片">
+            <span class="material-symbols-outlined" style="font-size:18px;">close</span>
+          </button>
+        </div>
+
+        <form id="form">
+          <input type="file" id="file-input" accept="image/*" style="display:none;">
+          <button class="upload-btn" type="button" id="trigger-upload" title="拍照或上传小票/实物图片 (Gemini Vision)">
+            <span class="material-symbols-outlined">add_a_photo</span>
+          </button>
+          <input id="input" type="text" placeholder="输入问题或需求，或拍照上传购物小票/实物…" autocomplete="off" autofocus>
+          <button class="send-btn" type="submit" aria-label="发送消息">
+            <span class="material-symbols-outlined">send</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
 </div>
 
 <script>
+/* --- Trilingual Dictionary --- */
+const I18N = {
+  zh: {
+    pageTitle: "3LDK 独居物品收纳与生活采购智能管家",
+    brandTitle: "3LDK 独居物品收纳与生活采购智能管家",
+    badgePill: "Gemini 3.6 Flash",
+    brandSubtitle: "空间鸟瞰图 · 视觉小票识别 · 交互待办采购 · 食材保鲜预警",
+    toggleMap: "3LDK 户型图",
+    statusOnline: "Agent Runtime 在线",
+    sidebarTitle: "3LDK 空间收纳鸟瞰图",
+    sidebarSubtitle: "点击任意空间，立即查询该区域的所有收纳物品与库存",
+    rooms: [
+      { name: "🚪 玄关与走廊 (Entrance)", badge: "入户区", desc: "鞋柜抽屉、挂钩置物架、雨伞架", items: "📍 拆快递专用剪刀、鞋油、备用钥匙", query: "查看【玄关】收纳的所有物品与位置" },
+      { name: "🛋️ LDK 客餐厨 (Living & Kitchen)", badge: "核心生活区", desc: "双门智能冰箱、调料收纳柜、实木大餐桌", items: "📍 万能味醂、鲜牛奶、即食酱料、日用杂物", query: "查看【LDK 客餐厨】收纳的所有物品与保鲜状态" },
+      { name: "🖥️ 东卧·独立书房 (East Study)", badge: "工作学习区", desc: "1米独立书桌、桌下收纳小抽屉、极简笔筒", items: "📍 办公专用剪刀、数码配件、手账文具", query: "查看【东卧·独立书房】收纳的所有办公文具与物品" },
+      { name: "🗄️ 中卧·起居主卧 (Master Bedroom)", badge: "就寝收纳区", desc: "传统巨大押入壁橱 (Oshiire)、床头收纳柜", items: "📍 换季厚被褥、旅行箱、无绳吸尘器", query: "查看【中卧·起居主卧】押入壁橱中收纳的所有物品" },
+      { name: "📦 西卧·储物间 (West Storage)", badge: "大宗备货区", desc: "四层金属货架、半透明收纳大箱", items: "📍 整箱原木抽纸、大瓶备用洗衣液、大米", query: "查看【西卧·闲置储物间】囤积的所有大宗物资与日用品" }
+    ],
+    greeting: "你好！我是你的 3LDK 独居收纳与采购智能管家。\n\n✨ 支持功能：\n1. 3LDK 空间鸟瞰图交互\n2. 拍照/小票视觉智能录入\n3. 交互式采购待办清单核销\n4. 食材保鲜彩色进度条\n5. 中英日三语无缝支持！",
+    prompts: [
+      { icon: "content_cut", label: "剪刀放在哪里？", text: "剪刀放在哪里？" },
+      { icon: "shopping_cart_checkout", label: "检查库存并生成独居采购清单", text: "帮我检查冰箱和储物间，生成一份紧急程度明确的独居采购清单" },
+      { icon: "photo_camera", label: "生成万能味醂视觉照片", text: "为厨房的万能味醂生成一张精美的物品视觉照片" }
+    ],
+    inputPlaceholder: "输入问题或需求，或拍照上传购物小票/实物…",
+    agentName: "智能管家",
+    userName: "独居主人",
+    checkInBtn: "核销入库",
+    previewText: "图片已就绪 (实物/小票识别)"
+  },
+  ja: {
+    pageTitle: "3LDK 独居収納＆生活購買スマート執事",
+    brandTitle: "3LDK 独居収納＆生活購買スマート執事",
+    badgePill: "Gemini 3.6 Flash",
+    brandSubtitle: "3LDK間取り図 · レシート画像認識 · 買い物チェックリスト · 賞味期限アラート",
+    toggleMap: "3LDK 間取り",
+    statusOnline: "Agent Runtime 稼働中",
+    sidebarTitle: "3LDK 空間収納バードビュー",
+    sidebarSubtitle: "エリアをクリックして、保管されているアイテムと在庫を確認",
+    rooms: [
+      { name: "🚪 玄関・廊下 (Entrance)", badge: "玄関エリア", desc: "シューズボックス、壁掛けフック、傘立て", items: "📍 開梱用ハサミ、靴クリーム、予備キー", query: "【玄関】に収納されているすべての物品と位置を教えて" },
+      { name: "🛋️ LDK・オープンキッチン", badge: "メイン居住区", desc: "大型冷蔵庫、調味料ラック、ダイニングテーブル", items: "📍 本みりん、牛乳、調味料、日用雑貨", query: "【LDK・キッチン】の食材と賞味期限の状態を教えて" },
+      { name: "🖥️ 東寝室・書斎ワークスペース", badge: "作業・学習区", desc: "1m独立デスク、デスク下引き出し、ペン立て", items: "📍 文具ハサミ、ガジェット類、文房具", query: "【東寝室・書斎】にある文房具や備品を教えて" },
+      { name: "🗄️ 主寝室・押入れクローゼット", badge: "就寝・収納区", desc: "和風大型押入れ、ベッドサイド収納", items: "📍 季節外れの羽毛布団、スーツケース、掃除機", query: "【主寝室・押入れ】にしまってある荷物を教えて" },
+      { name: "📦 西部屋・ストック倉庫", badge: "大容量備蓄区", desc: "4段メタルラック、半透明収納ボックス", items: "📍 ティッシュペーパー箱買い、洗濯洗剤、お米", query: "【西部屋・ストック倉庫】にある日用品の備蓄在庫を教えて" }
+    ],
+    greeting: "こんにちは！あなたの 3LDK 独居収納＆生活購買スマート執事です。\n\n✨ 主な機能：\n1. 3LDK インタラクティブ間取り図\n2. レシート・商品のカメラ画像認識\n3. 買い物チェックリスト＆在庫自動更新\n4. 賞味期限ビジュアルプログレスバー\n5. 日本語・英語・中国語の完全マルチリンガル対応！",
+    prompts: [
+      { icon: "content_cut", label: "ハサミはどこにありますか？", text: "ハサミはどこに置いてありますか？" },
+      { icon: "shopping_cart_checkout", label: "在庫を確認して買い物リストを作成", text: "冷蔵庫と備蓄を確認して、優先度の高い独居用買い物リストを作成してください" },
+      { icon: "photo_camera", label: "本みりんのビジュアル写真を生成", text: "キッチンにある本みりんの素敵な写真を生成してください" }
+    ],
+    inputPlaceholder: "質問を入力、またはレシート・商品の写真を撮影…",
+    agentName: "スマート執事",
+    userName: "部屋の主",
+    checkInBtn: "在庫反映",
+    previewText: "画像準備完了 (商品/レシート認識)"
+  },
+  en: {
+    pageTitle: "3LDK Solo Living & Home Inventory Butler",
+    brandTitle: "3LDK Solo Living & Inventory Butler",
+    badgePill: "Gemini 3.6 Flash",
+    brandSubtitle: "Interactive Floorplan · Receipt Vision Intake · Smart Checklist · Freshness Tracker",
+    toggleMap: "3LDK Floorplan",
+    statusOnline: "Agent Runtime Connected",
+    sidebarTitle: "3LDK Spatial Layout Explorer",
+    sidebarSubtitle: "Click any zone to inspect storage spots and stock levels",
+    rooms: [
+      { name: "🚪 Entrance & Foyer", badge: "Entrance", desc: "Shoe cabinet, wall hooks, umbrella rack", items: "📍 Unboxing scissors, shoe care, spare keys", query: "Show all items and storage spots in the Entrance" },
+      { name: "🛋️ LDK & Open Kitchen", badge: "Living Area", desc: "Smart fridge, pantry spice rack, dining table", items: "📍 Mirin, fresh milk, daily pantry essentials", query: "Show all items and freshness status in LDK & Kitchen" },
+      { name: "🖥️ East Bedroom (Home Office)", badge: "Workzone", desc: "1m desk, under-desk organizer, pen cup", items: "📍 Desk scissors, tech gadgets, stationery", query: "Show all stationery and equipment in the East Study" },
+      { name: "🗄️ Master Bedroom (Oshiire Closet)", badge: "Sleep & Closet", desc: "Traditional Oshiire closet, bedside storage", items: "📍 Seasonal bedding, suitcases, cordless vacuum", query: "Show all items stored in Master Bedroom Oshiire closet" },
+      { name: "📦 West Bedroom (Bulk Storage)", badge: "Stockroom", desc: "4-tier metal shelves, clear storage bins", items: "📍 Boxed facial tissue, laundry detergent, rice", query: "Show all bulk backup supplies in West Storage" }
+    ],
+    greeting: "Hello! I am your 3LDK Solo Living Inventory & Procurement Butler.\n\n✨ Features ready:\n1. 3LDK Interactive Floorplan Explorer\n2. Multimodal Receipt & Item Vision Intake\n3. Interactive Shopping Checklist with Instant Stock Sync\n4. Food Freshness & Expiry Visual Progress Indicators\n5. Seamless Trilingual Support (Japanese, English, and Chinese)!",
+    prompts: [
+      { icon: "content_cut", label: "Where are the scissors?", text: "Where are the scissors located?" },
+      { icon: "shopping_cart_checkout", label: "Generate shopping replenishment list", text: "Check my fridge and storage to generate a prioritized shopping list" },
+      { icon: "photo_camera", label: "Generate photo of Mirin", text: "Generate an aesthetic visual photo of Mirin in the kitchen" }
+    ],
+    inputPlaceholder: "Ask a question, or take a picture of receipts/items…",
+    agentName: "Butler",
+    userName: "Resident",
+    checkInBtn: "Sync Stock",
+    previewText: "Image ready for Gemini Vision Intake"
+  }
+};
+
+let currentLang = localStorage.getItem("preferred_lang") || "zh";
+
 const log = document.getElementById("log");
 const form = document.getElementById("form");
 const input = document.getElementById("input");
 const quickPrompts = document.getElementById("quick-prompts");
+const toggleSidebarBtn = document.getElementById("toggle-sidebar");
+const sidebar = document.getElementById("sidebar");
+const fileInput = document.getElementById("file-input");
+const triggerUpload = document.getElementById("trigger-upload");
+const imagePreviewBar = document.getElementById("image-preview-bar");
+const previewThumb = document.getElementById("preview-thumb");
+const previewText = document.getElementById("preview-text");
+const clearImageBtn = document.getElementById("clear-image-btn");
+const langSelect = document.getElementById("lang-select");
+const floorplanMapContainer = document.getElementById("floorplan-map-container");
+
+let currentImageBase64 = null;
+
+function applyLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem("preferred_lang", lang);
+  langSelect.value = lang;
+  const t = I18N[lang] || I18N.zh;
+
+  document.getElementById("page-title").textContent = t.pageTitle;
+  document.getElementById("ui-brand-title").textContent = t.brandTitle;
+  document.getElementById("ui-badge-pill").textContent = t.badgePill;
+  document.getElementById("ui-brand-subtitle").textContent = t.brandSubtitle;
+  document.getElementById("ui-toggle-map").textContent = t.toggleMap;
+  document.getElementById("ui-status-online").textContent = t.statusOnline;
+  document.getElementById("ui-sidebar-title").textContent = t.sidebarTitle;
+  document.getElementById("ui-sidebar-subtitle").textContent = t.sidebarSubtitle;
+  input.placeholder = t.inputPlaceholder;
+  previewText.textContent = t.previewText;
+
+  // Render rooms in floorplan
+  floorplanMapContainer.innerHTML = "";
+  t.rooms.forEach(r => {
+    const card = document.createElement("div");
+    card.className = "room-card";
+    card.dataset.query = r.query;
+    card.innerHTML = `
+      <div class="room-title-row">
+        <span class="room-name">${r.name}</span>
+        <span class="room-badge">${r.badge}</span>
+      </div>
+      <p class="room-desc">${r.desc}</p>
+      <p class="room-highlight-items">${r.items}</p>
+    `;
+    card.addEventListener("click", () => {
+      document.querySelectorAll(".room-card").forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+      sendUserMessage(r.query);
+    });
+    floorplanMapContainer.appendChild(card);
+  });
+
+  // Render quick prompts
+  quickPrompts.innerHTML = "";
+  t.prompts.forEach(p => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "prompt-pill";
+    btn.dataset.prompt = p.text;
+    btn.innerHTML = `
+      <span class="material-symbols-outlined" style="font-size:16px;">${p.icon}</span>
+      ${p.label}
+    `;
+    btn.addEventListener("click", () => sendUserMessage(p.text));
+    quickPrompts.appendChild(btn);
+  });
+}
+
+langSelect.addEventListener("change", (e) => {
+  applyLanguage(e.target.value);
+});
+
+// Initialize language
+applyLanguage(currentLang);
+
+// Toggle floorplan sidebar
+toggleSidebarBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("collapsed");
+});
+
+// Image Upload Handlers
+triggerUpload.addEventListener("click", () => fileInput.click());
+
+fileInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (evt) => {
+    currentImageBase64 = evt.target.result;
+    previewThumb.src = currentImageBase64;
+    previewText.textContent = `已选图片: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+    imagePreviewBar.classList.add("active");
+  };
+  reader.readAsDataURL(file);
+});
+
+clearImageBtn.addEventListener("click", () => {
+  currentImageBase64 = null;
+  fileInput.value = "";
+  imagePreviewBar.classList.remove("active");
+});
 
 function el(tag, cls, text) {
   const e = document.createElement(tag);
@@ -472,6 +1002,7 @@ function formatTime() {
 }
 
 function bubble(who) {
+  const t = I18N[currentLang] || I18N.zh;
   const turn = el("div", "dialogue-turn " + who);
   const avatar = el("div", "avatar");
   const avatarIcon = el("span", "material-symbols-outlined");
@@ -480,7 +1011,7 @@ function bubble(who) {
 
   const content = el("div", "dialogue-content");
   const sender = el("div", "sender-info");
-  sender.innerHTML = `<span>${who === "user" ? "独居主人" : "智能管家"}</span><span>· ${formatTime()}</span>`;
+  sender.innerHTML = `<span>${who === "user" ? t.userName : t.agentName}</span><span>· ${formatTime()}</span>`;
 
   const b = el("div", "bubble");
   content.appendChild(sender);
@@ -496,7 +1027,6 @@ function bubble(who) {
 
 /* ----------------------------------------------------------------------------
  * A2UI mini-renderer (v0.8 Basic Catalog subset).
- * Renders Card / Column / Row / Text / Divider / List / Image / Icon.
  * -------------------------------------------------------------------------- */
 function boundStr(v) {
   if (v == null) return "";
@@ -540,11 +1070,16 @@ function buildNode(id, comps, seen) {
       kids().forEach(n => d.appendChild(n)); return d;
     }
     case "Text": {
+      const textVal = boundStr(props.text);
+      if ((textVal.includes("保质期") || textVal.includes("賞味期限") || textVal.includes("Expiry")) && 
+          (textVal.includes("天") || textVal.includes("日") || textVal.includes("days") || textVal.includes("过期") || textVal.includes("切れ"))) {
+        return createExpiryWidget(textVal);
+      }
       const t = el("div", "a2text");
       const hint = String(props.usageHint || "body").toLowerCase();
       if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(hint)) t.classList.add("a2-" + hint);
       else if (hint === "caption") t.classList.add("a2-caption");
-      t.textContent = boundStr(props.text);
+      t.textContent = textVal;
       return t;
     }
     case "Divider":
@@ -560,6 +1095,43 @@ function buildNode(id, comps, seen) {
     default:
       return null;
   }
+}
+
+function createExpiryWidget(text) {
+  const container = el("div", "expiry-widget");
+  const header = el("div", "expiry-header");
+  const title = el("span", "expiry-title", text);
+
+  let badgeType = "safe";
+  let badgeLabel = currentLang === "ja" ? "良好" : (currentLang === "en" ? "Fresh" : "状态正常");
+  let percent = 85;
+  let fillColor = "#10b981";
+
+  if (text.includes("过期") || text.includes("期限切れ") || text.includes("expired")) {
+    badgeType = "danger";
+    badgeLabel = currentLang === "ja" ? "期限切れ / 破棄推奨" : (currentLang === "en" ? "Expired" : "已过期 / 需丢弃");
+    percent = 100;
+    fillColor = "#ef4444";
+  } else if (text.includes("1天") || text.includes("2天") || text.includes("3天") || text.includes("1日") || text.includes("2日") || text.includes("3日") || text.includes("1 day") || text.includes("2 day") || text.includes("3 day")) {
+    badgeType = "warning";
+    badgeLabel = currentLang === "ja" ? "3日以内要消費" : (currentLang === "en" ? "Expires Soon (3d)" : "3天内临期");
+    percent = 30;
+    fillColor = "#f59e0b";
+  }
+
+  const badge = el("span", "expiry-badge " + badgeType, badgeLabel);
+  header.appendChild(title);
+  header.appendChild(badge);
+
+  const track = el("div", "progress-track");
+  const fill = el("div", "progress-fill");
+  fill.style.width = percent + "%";
+  fill.style.backgroundColor = fillColor;
+  track.appendChild(fill);
+
+  container.appendChild(header);
+  container.appendChild(track);
+  return container;
 }
 
 function renderSurface(messages, container) {
@@ -590,6 +1162,52 @@ function flattenText(messages) {
   return out.join("\n").trim();
 }
 
+function parseInteractiveChecklist(container, text) {
+  const t = I18N[currentLang] || I18N.zh;
+  const lines = text.split("\n");
+  const checklistWrapper = el("div", "interactive-checklist");
+  let foundChecklist = false;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    const isBullet = trimmed.startsWith("•") || trimmed.startsWith("- [ ]") || trimmed.startsWith("*") || /^\d+\./.test(trimmed);
+    if (isBullet && (trimmed.includes("采购") || trimmed.includes("瓶") || trimmed.includes("箱") || trimmed.includes("把") || trimmed.includes("袋") || trimmed.includes("盒") || trimmed.includes("本") || trimmed.includes("個") || trimmed.includes("buy") || trimmed.includes("pcs") || trimmed.includes("bottles"))) {
+      foundChecklist = true;
+      const cleanItem = trimmed.replace(/^[-*•\d\.\s\[\]]+/, "").trim();
+      const card = el("div", "checklist-card");
+      const left = el("div", "check-left");
+      const box = el("div", "check-box-custom");
+      const label = el("span", "check-label", cleanItem);
+      left.appendChild(box);
+      left.appendChild(label);
+
+      const syncBtn = el("button", "sync-stock-btn", t.checkInBtn);
+      syncBtn.type = "button";
+      syncBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        card.classList.add("checked");
+        const actionMsg = currentLang === "ja" ? 
+          `【${cleanItem}】を購入完了しました。システム在庫に反映・更新してください。` : 
+          (currentLang === "en" ? `Purchased [${cleanItem}]. Please sync and update inventory.` : `已完成采购【${cleanItem}】，请在系统里核销更新库存。`);
+        sendUserMessage(actionMsg);
+      });
+
+      card.appendChild(left);
+      card.appendChild(syncBtn);
+
+      card.addEventListener("click", () => {
+        card.classList.toggle("checked");
+      });
+
+      checklistWrapper.appendChild(card);
+    }
+  }
+
+  if (foundChecklist) {
+    container.appendChild(checklistWrapper);
+  }
+}
+
 function renderReply(b, parts) {
   b.innerHTML = "";
   const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
@@ -598,13 +1216,10 @@ function renderReply(b, parts) {
   const textStr = texts.join("\n").trim();
   if (textStr) {
     const textDiv = el("div", null);
-    // Detect video URL or video mention in response
     const videoMatch = textStr.match(/(https:\/\/storage\.googleapis\.com\/[^\s"')]+\.mp4)/i);
     if (videoMatch) {
       const cleanText = textStr.replace(videoMatch[0], "").trim();
-      if (cleanText) {
-        textDiv.textContent = cleanText;
-      }
+      if (cleanText) textDiv.textContent = cleanText;
       const videoEl = document.createElement("video");
       videoEl.className = "media-video";
       videoEl.src = videoMatch[0];
@@ -615,21 +1230,39 @@ function renderReply(b, parts) {
       textDiv.textContent = textStr;
     }
     b.appendChild(textDiv);
+    parseInteractiveChecklist(b, textStr);
   }
 
   if (a2ui.length) {
     b.classList.add("rich");
     if (!renderSurface(a2ui, b)) b.appendChild(el("div", null, flattenText(a2ui) || "(无卡片内容)"));
   }
-  if (!b.childNodes.length) b.textContent = "(暂无回复)";
+  if (!b.childNodes.length) b.textContent = currentLang === "ja" ? "(応答なし)" : (currentLang === "en" ? "(No response)" : "(暂无回复)");
   log.scrollTop = log.scrollHeight;
 }
 
 async function sendUserMessage(msgText) {
   const text = msgText.trim();
-  if (!text) return;
-  bubble("user").textContent = text;
+  const image = currentImageBase64;
+  if (!text && !image) return;
+
+  const userBubble = bubble("user");
+  if (image) {
+    const imgEl = el("img", "a2img");
+    imgEl.src = image;
+    imgEl.style.maxHeight = "140px";
+    imgEl.style.marginBottom = "6px";
+    userBubble.appendChild(imgEl);
+  }
+  if (text) {
+    const textEl = el("div", null, text);
+    userBubble.appendChild(textEl);
+  }
+
   input.value = "";
+  currentImageBase64 = null;
+  fileInput.value = "";
+  imagePreviewBar.classList.remove("active");
   
   const b = bubble("agent");
   b.innerHTML = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
@@ -638,7 +1271,7 @@ async function sendUserMessage(msgText) {
     const res = await fetch("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
+      body: JSON.stringify({ message: text, image_base64: image })
     });
     const raw = await res.text();
     let data;
@@ -656,16 +1289,6 @@ async function sendUserMessage(msgText) {
 form.addEventListener("submit", async (ev) => {
   ev.preventDefault();
   sendUserMessage(input.value);
-});
-
-// Click handlers for example prompt pills
-quickPrompts.addEventListener("click", (ev) => {
-  const pill = ev.target.closest(".prompt-pill");
-  if (!pill) return;
-  const prompt = pill.dataset.prompt;
-  if (prompt) {
-    sendUserMessage(prompt);
-  }
 });
 </script>
 </body>

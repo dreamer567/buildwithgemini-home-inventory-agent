@@ -10,6 +10,8 @@ structured parts the chat UI knows how to show:
     surfaceUpdate); static/index.html renders these as a card.
 """
 
+import asyncio
+import base64
 import logging
 import os
 import uuid
@@ -24,6 +26,8 @@ from a2a.utils.constants import TransportProtocol
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from google import genai
+from google.genai import types as genai_types
 from google.protobuf.json_format import MessageToDict
 
 logging.basicConfig(level=logging.INFO)
@@ -52,6 +56,30 @@ def _auth_headers() -> dict[str, str]:
         "Authorization": f"Bearer {_creds.token}",
         "Content-Type": "application/json",
     }
+
+
+def _analyze_image_sync(img_bytes: bytes, mime_type: str) -> str:
+    """Analyze uploaded photo or receipt using Gemini 2.5 Flash on Vertex AI."""
+    try:
+        project_id = os.environ.get("GOOGLE_CLOUD_PROJECT", "qwiklabs-gcp-04-0e1a68c8e387")
+        client = genai.Client(vertexai=True, project=project_id, location=LOCATION)
+        prompt = (
+            "你是一个专业的 3LDK 家居物品与食材收纳识别助手。请仔细观察这张用户上传的照片"
+            "（可能是超市购物小票、刚采购回来的生活物品包装、或家中某个角落的收纳实物）。"
+            "请准确提取图中的所有具体物品名称、预估数量、包装规格以及能识别出的保质期/生产日期信息。"
+            "用清晰精炼的中文条目列出识别到的物品。"
+        )
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=[
+                genai_types.Part.from_bytes(data=img_bytes, mime_type=mime_type),
+                prompt,
+            ],
+        )
+        return (response.text or "").strip()
+    except Exception as e:
+        logger.error(f"Image analysis error: {e}")
+        return f"(图片分析暂不可用: {e})"
 
 
 app = FastAPI()
@@ -96,8 +124,31 @@ def _extract_part_dict(part: Any) -> dict | None:
 async def chat(req: Request):
     body = await req.json()
     message = body.get("message", "")
+    image_base64 = body.get("image_base64")
     user_id = body.get("user_id") or "web-user"
     parts: list[dict] = []
+
+    # Multimodal image handling
+    if image_base64:
+        mime_type = "image/jpeg"
+        if "," in image_base64:
+            header, b64_data = image_base64.split(",", 1)
+            if "data:" in header and ";base64" in header:
+                mime_type = header.replace("data:", "").split(";")[0]
+        else:
+            b64_data = image_base64
+
+        try:
+            img_bytes = base64.b64decode(b64_data)
+            vision_result = await asyncio.to_thread(_analyze_image_sync, img_bytes, mime_type)
+            if vision_result:
+                user_msg = message.strip() if message else "请帮我将这些物品分类归置到 3LDK 对应房间的收纳位置，并记录保质期与库存状态。"
+                message = (
+                    f"【📷 实物/小票视觉识别结果】：\n{vision_result}\n\n"
+                    f"【用户需求】：{user_msg}"
+                )
+        except Exception as e:
+            logger.error(f"Failed to process image: {e}")
 
     async with httpx.AsyncClient(headers=_auth_headers(), timeout=120) as http_client:
         config = ClientConfig(

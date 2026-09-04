@@ -30,9 +30,20 @@
    - **生图能力**：调用全球区域 `gemini-3.1-flash-lite-image`，生成日系极简风格的高清物品展示图。
    - **短视频能力**：集成 Google Omni 模型（`gemini-omni-flash-preview`），生成丝滑镜头动态短视频，并直传公网 Cloud Storage。
 5. **结构化卡片交互 (A2UI v0.8)**
-   - 拒绝单调的纯文本大段回复，自动渲染层次分明的信息卡片、位置徽章、色彩分明的预警表格与物品图片。
+   - 自动渲染层次分明的信息卡片、位置徽章、色彩分明的预警表格与物品图片。
+6. **3LDK 交互式空间鸟瞰图 (Interactive Floorplan Explorer)**
+   - 前端集成 3LDK 户型交互视图（玄关、LDK 客餐厨、东卧书房、中卧起居室、西卧储物间），点击区域卡片实现一键空间收纳穿梭检索。
+7. **多模态实物与小票拍照识别 (Multimodal Vision Intake)**
+   - 支持直接拍照或上传超市收据、实物包装，基于 Gemini 多模态视觉能力自动识别品名、数量与保质期，一键录入云端 Firestore。
+8. **交互式采购待办清单与即时核销 (Interactive Checklist & Stock Sync)**
+   - 超市采购时，在界面中直接点击条目打勾划线，一键回传 Agent 智能核销并扣减/刷新库存状态。
+9. **食品临期彩色进度条 (Freshness & Expiry Progress Visuals)**
+   - 为食材引入红/黄/绿三色保鲜进度条，一眼识别 3 天内临期食材，彻底杜绝冰箱积压浪费。
+10. **中英日全语言无缝支持 (Trilingual: Japanese, English, Chinese)**
+    - 原生支持 **中文 (Chinese)**、**日本語 (Japanese)** 与 **English** 三语自由切换，无论是 UI 界面还是底层 Agent 均能以对应语言精准流利交互。
 
 ---
+
 
 ## 🛠️ Google Cloud 技术栈矩阵 (Google Cloud Architecture)
 
