@@ -2,6 +2,11 @@
 
 > 基于 Google Gemini 3.6 与 Vertex AI Agent Engine 构建的现代化 3LDK 空间收纳、食材保鲜与生活采购全能管家 Agent。
 
+[![Cloud Run Live](https://img.shields.io/badge/Google_Cloud_Run-Live_Demo_Online-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white)](https://home-inventory-frontend-885543773610.us-east1.run.app)
+[![Gemini 3.6 Flash](https://img.shields.io/badge/Google_Gemini-3.6_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
+[![A2UI Protocol](https://img.shields.io/badge/UI_Protocol-A2UI_v0.8-34A853?style=for-the-badge)](https://github.com/dreamer567/buildwithgemini-home-inventory-agent)
+[![Languages](https://img.shields.io/badge/Languages-🇨🇳中文_%7C_🇯🇵日本語_%7C_🇺🇸English-orange?style=for-the-badge)](https://home-inventory-frontend-885543773610.us-east1.run.app)
+
 ### 🎬 系统演示与全景展示 (Live Demos)
 
 | 🇯🇵 日本語版 (3D立体間取り図操作・ボタン連動・和風Lo-Fi音源) | 🇨🇳 中文版 (全流程定位・待办核销・极简Lo-Fi) |
