@@ -2,9 +2,14 @@
 
 > 基于 Google Gemini 3.6 与 Vertex AI Agent Engine 构建的现代化 3LDK 空间收纳、食材保鲜与生活采购全能管家 Agent。
 
-![Demo](./assets/demo.gif)
+### 🎬 系统演示与全景展示 (Live Demos)
 
-> 🎬 **全流程高清演示视频 (含 Google Lyria 生成的 Lo-Fi 律动背景音乐)**：可直接在 GitHub 播放或下载查看 [assets/agent_demo.webm](./assets/agent_demo.webm)
+| 🇯🇵 日本語版 (3D立体間取り図操作・ボタン連動・和風Lo-Fi音源) | 🇨🇳 中文版 (全流程定位・待办核销・极简Lo-Fi) |
+| :---: | :---: |
+| ![Japanese Demo](./assets/demo_ja.gif) | ![Chinese Demo](./assets/demo.gif) |
+| 🎥 [高清原片 assets/agent_demo_ja.webm](./assets/agent_demo_ja.webm) | 🎥 [高清原片 assets/agent_demo.webm](./assets/agent_demo.webm) |
+
+> 🎵 **AI 原创配乐**：全部演示视频均由 Google **Lyria**（`lyria-002`）模型根据空间氛围实时生成专属 Lo-Fi 律动伴奏，并以 1.5x 倍速精细合成。
 
 ---
 

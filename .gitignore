@@ -214,14 +214,10 @@ venv/
 __pycache__/
 *.pyc
 node_modules/
-.video_tmp/
-.DS_Store
-.env
-*.env
-application_default_credentials.json
-*-sa-key.json
-service-account*.json
+.video_tmp*/
+record-agent-ja-rich.js
 # Keep the demo GIF and webm demo in assets
 *.webm
 !assets/*.webm
+
 

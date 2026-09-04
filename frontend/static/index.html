@@ -205,6 +205,111 @@
     margin-top: 3px;
   }
 
+  /* --- 3D Isometric Mini-Map --- */
+  .iso-floorplan-container {
+    padding: 0.85rem 1rem 0.6rem;
+    background: linear-gradient(180deg, #f3f7f4 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .iso-badge {
+    align-self: flex-start;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .iso-stage {
+    perspective: 800px;
+    width: 100%;
+    height: 125px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .iso-grid {
+    transform: rotateX(55deg) rotateZ(-38deg);
+    transform-style: preserve-3d;
+    display: grid;
+    grid-template-columns: 82px 82px;
+    grid-template-rows: 52px 52px 42px;
+    gap: 7px;
+    position: relative;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .iso-grid:hover {
+    transform: rotateX(50deg) rotateZ(-32deg) scale(1.05);
+  }
+  .iso-room {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1.5px solid #2d6a4f;
+    border-radius: 8px;
+    box-shadow: 2px 2px 0px rgba(45, 106, 79, 0.35), 4px 6px 12px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    transform: translateZ(0px);
+    user-select: none;
+  }
+  .iso-room:hover {
+    background: #2d6a4f;
+    color: #fff;
+    transform: translateZ(10px) scale(1.05);
+    box-shadow: 3px 5px 0px rgba(27, 67, 50, 0.45), 5px 10px 16px rgba(45, 106, 79, 0.3);
+  }
+  .iso-room.active {
+    background: #1b4332;
+    color: #fff !important;
+    border-color: #52b788;
+    transform: translateZ(12px);
+    box-shadow: 0 0 14px rgba(82, 183, 136, 0.65), 3px 5px 0px #0b1f17;
+  }
+  .iso-room .iso-icon {
+    font-size: 15px;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .iso-room .iso-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    color: var(--accent-dark);
+  }
+  .iso-room:hover .iso-label, .iso-room.active .iso-label {
+    color: #ffffff;
+  }
+  .room-ldk {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    background: #eaf8ee;
+  }
+  .room-bed1 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+  .room-bed2 {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+  .room-bed3 {
+    grid-column: 1 / 2;
+    grid-row: 3 / 4;
+  }
+  .room-genkan {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+  }
+
   .floorplan-map {
     padding: 1rem;
     display: flex;
@@ -729,6 +834,39 @@
       </h3>
       <p id="ui-sidebar-subtitle">点击任意空间，立即查询该区域的所有收纳物品与库存</p>
     </div>
+
+    <!-- 3D Isometric Interactive Layout -->
+    <div class="iso-floorplan-container">
+      <div class="iso-badge" id="iso-badge-label">
+        <span class="material-symbols-outlined" style="font-size:14px;">view_in_ar</span> 
+        <span>3D Isometric Map</span>
+      </div>
+      <div class="iso-stage">
+        <div class="iso-grid">
+          <div class="iso-room room-ldk" id="iso-room-ldk" data-idx="1" title="LDK 客餐厨 / Living Kitchen">
+            <span class="iso-icon">🛋️</span>
+            <span class="iso-label" id="iso-lbl-ldk">LDK</span>
+          </div>
+          <div class="iso-room room-bed1" id="iso-room-bed1" data-idx="2" title="東寝室·書斎 / East Study">
+            <span class="iso-icon">🖥️</span>
+            <span class="iso-label" id="iso-lbl-bed1">Study</span>
+          </div>
+          <div class="iso-room room-bed2" id="iso-room-bed2" data-idx="3" title="主寝室·押入れ / Master Bed">
+            <span class="iso-icon">🗄️</span>
+            <span class="iso-label" id="iso-lbl-bed2">Master</span>
+          </div>
+          <div class="iso-room room-bed3" id="iso-room-bed3" data-idx="4" title="西部屋·倉庫 / Storage">
+            <span class="iso-icon">📦</span>
+            <span class="iso-label" id="iso-lbl-bed3">Storage</span>
+          </div>
+          <div class="iso-room room-genkan" id="iso-room-genkan" data-idx="0" title="玄関·廊下 / Entrance">
+            <span class="iso-icon">🚪</span>
+            <span class="iso-label" id="iso-lbl-genkan">Entrance</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="floorplan-map" id="floorplan-map-container">
       <!-- Injected dynamically by updateLanguage() -->
     </div>
@@ -881,7 +1019,8 @@ const I18N = {
   }
 };
 
-let currentLang = localStorage.getItem("preferred_lang") || "zh";
+const urlParams = new URLSearchParams(window.location.search);
+let currentLang = urlParams.get("lang") || localStorage.getItem("preferred_lang") || "zh";
 
 const log = document.getElementById("log");
 const form = document.getElementById("form");
@@ -917,11 +1056,58 @@ function applyLanguage(lang) {
   input.placeholder = t.inputPlaceholder;
   previewText.textContent = t.previewText;
 
+  const welcomeBubble = document.getElementById("welcome-bubble");
+  if (welcomeBubble && t.greeting) {
+    welcomeBubble.textContent = t.greeting;
+  }
+
+  // Update 3D Isometric Mini-Map Labels
+  const isoBadge = document.querySelector("#iso-badge-label span:last-child");
+  if (isoBadge) {
+    isoBadge.textContent = lang === "ja" ? "3D 間取りビュー" : (lang === "en" ? "3D Isometric View" : "3D 空间立体鸟瞰图");
+  }
+  if (lang === "ja") {
+    document.getElementById("iso-lbl-ldk").textContent = "LDK";
+    document.getElementById("iso-lbl-bed1").textContent = "書斎";
+    document.getElementById("iso-lbl-bed2").textContent = "主寝室";
+    document.getElementById("iso-lbl-bed3").textContent = "倉庫";
+    document.getElementById("iso-lbl-genkan").textContent = "玄関";
+  } else if (lang === "en") {
+    document.getElementById("iso-lbl-ldk").textContent = "LDK";
+    document.getElementById("iso-lbl-bed1").textContent = "Study";
+    document.getElementById("iso-lbl-bed2").textContent = "Master";
+    document.getElementById("iso-lbl-bed3").textContent = "Storage";
+    document.getElementById("iso-lbl-genkan").textContent = "Foyer";
+  } else {
+    document.getElementById("iso-lbl-ldk").textContent = "客餐厨";
+    document.getElementById("iso-lbl-bed1").textContent = "书房";
+    document.getElementById("iso-lbl-bed2").textContent = "主卧";
+    document.getElementById("iso-lbl-bed3").textContent = "储物";
+    document.getElementById("iso-lbl-genkan").textContent = "玄关";
+  }
+
+  // Wire up 3D Isometric Rooms
+  document.querySelectorAll(".iso-room").forEach(iso => {
+    iso.onclick = () => {
+      const idx = parseInt(iso.dataset.idx, 10);
+      const room = t.rooms[idx];
+      if (!room) return;
+      document.querySelectorAll(".iso-room").forEach(ir => ir.classList.remove("active"));
+      iso.classList.add("active");
+      document.querySelectorAll(".room-card").forEach((rc, rIdx) => {
+        rc.classList.toggle("active", rIdx === idx);
+        if (rIdx === idx) rc.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+      sendUserMessage(room.query);
+    };
+  });
+
   // Render rooms in floorplan
   floorplanMapContainer.innerHTML = "";
-  t.rooms.forEach(r => {
+  t.rooms.forEach((r, idx) => {
     const card = document.createElement("div");
     card.className = "room-card";
+    card.dataset.idx = idx;
     card.dataset.query = r.query;
     card.innerHTML = `
       <div class="room-title-row">
@@ -934,6 +1120,9 @@ function applyLanguage(lang) {
     card.addEventListener("click", () => {
       document.querySelectorAll(".room-card").forEach(c => c.classList.remove("active"));
       card.classList.add("active");
+      document.querySelectorAll(".iso-room").forEach(ir => {
+        ir.classList.toggle("active", parseInt(ir.dataset.idx, 10) === idx);
+      });
       sendUserMessage(r.query);
     });
     floorplanMapContainer.appendChild(card);
